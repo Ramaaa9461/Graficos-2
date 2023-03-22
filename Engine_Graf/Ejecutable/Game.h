@@ -10,18 +10,15 @@
 #include "ImGuiEngine.h"
 #include "CollisionManager.h"
 
+#include "Camera.h"
+
 class Game : public BaseGame
 {
 
 private:
 
-	Entity2d* animation;
-	Entity2d* animation1;
-	Entity2d* sprite1;
+	Camera* camera;
 	Entity2d* rectangleShape;
-
-	glm::vec3 normal;
-	float depth;
 
 public:
 
