@@ -18,7 +18,7 @@ DllExport Camera::Camera()
 	cameraWorldUp = cameraUp;
 
 	cameraSpeed = 2.5f;
-	MouseSensitivity = 0.1f;
+	MouseSensitivity = 0.01f;
 	Zoom = 45.0f;
 	Yaw = -90.0f;
 	Pitch = 0.0f;
@@ -42,8 +42,8 @@ DllExport void Camera::thirdPersonCamera(glm::vec3 target)
 	float camX = sin(glfwGetTime()) * radius;
 	float camZ = cos(glfwGetTime()) * radius;
 
-	cameraPos.x = camX;
-	cameraPos.z = camZ;
+	//cameraPos.x = camX;
+	//cameraPos.z = camZ;
 
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, target, cameraUp);
 }
@@ -66,6 +66,45 @@ DllExport void Camera::moveRight()
 DllExport void Camera::moveLeft()
 {
 	cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+}
+
+void Camera::followCursor()
+{
+	float xoffset = 0, yoffset = 0;
+
+	if (Input::getKeyPressed(GLFW_KEY_SPACE))
+	{
+		xoffset = Input::getMouseX();
+		yoffset = Input::getMouseY();
+	}
+
+	//if (Input::getKeyPressed(GLFW_KEY_Q))
+	//{
+	//	yoffset += 50.0f;
+	//}
+
+	//if (Input::getKeyPressed(GLFW_KEY_E))
+	//{
+	//	yoffset -= 50.0f;
+	//}
+
+	xoffset *= MouseSensitivity;
+	yoffset *= MouseSensitivity;
+
+	Yaw += xoffset;
+	Pitch += yoffset;
+
+	// make sure that when pitch is out of bounds, screen doesn't get flipped
+	//if (constrainPitch)
+	{
+		if (Pitch > 89.0f)
+			Pitch = 89.0f;
+		if (Pitch < -89.0f)
+			Pitch = -89.0f;
+	}
+
+	// update Front, Right and Up Vectors using the updated Euler angles
+	updateCameraVectors();
 }
 
 

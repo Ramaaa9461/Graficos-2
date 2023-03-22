@@ -79,8 +79,9 @@ void Game::Update()
 	//Render here-------------------------
 	{
 		rectangleShape->draw();
-		camera->thirdPersonCamera(rectangleShape->getPosition());
-		//camera->firstPersonCamera();
+		//camera->thirdPersonCamera(rectangleShape->getPosition());
+		camera->firstPersonCamera();
+		camera->followCursor();
 	}
 	//------------------------------------
 

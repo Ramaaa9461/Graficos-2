@@ -3,6 +3,8 @@
 #include "Renderer.h"
 #include "glm/glm.hpp"
 
+#include "Input.h"
+
 #include "DDLExport.h"
 
 class Camera
@@ -39,12 +41,12 @@ public:
 	DllExport void firstPersonCamera();
 	DllExport void thirdPersonCamera(glm::vec3 target);
 	
+	DllExport void followCursor();
 	
 	DllExport void moveForward();
 	DllExport void moveBack();
 	DllExport void moveRight();
 	DllExport void moveLeft();
-
 
 };
 
