@@ -44,8 +44,9 @@
 	{
 		Window* window = Window::getWindow();
 
-		proj = glm::ortho(0.0f, (float)window->WINDOW_WIDTH, 0.0f, (float)window->WINDOW_HEIGHT, -1.0f, 1.0f); //Proyeccion ortografica
-		view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//proj = glm::ortho(0.0f, (float)window->WINDOW_WIDTH, 0.0f, (float)window->WINDOW_HEIGHT, -1.0f, 1.0f); //Proyeccion ortografica
+		proj = glm::perspective(glm::radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
+		view = glm::lookAt(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 
