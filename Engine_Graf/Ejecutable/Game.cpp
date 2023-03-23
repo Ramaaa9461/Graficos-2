@@ -81,7 +81,11 @@ void Game::Update()
 		rectangleShape->draw();
 		//camera->thirdPersonCamera(rectangleShape->getPosition());
 		camera->firstPersonCamera();
-		camera->followCursor();
+		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
+	
+		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
+		//camera->cameraRotationY(Input::getMousePosition().y * Timer::getTimer()->timeBetweenFrames(), 0.1f);
+		//camera->cameraRotationZ(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
 	}
 	//------------------------------------
 

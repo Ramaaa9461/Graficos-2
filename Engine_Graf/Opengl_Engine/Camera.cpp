@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include "Timer.h"
+
 
 DllExport Camera::Camera()
 {
@@ -22,6 +24,7 @@ DllExport Camera::Camera()
 	Zoom = 45.0f;
 	Yaw = -90.0f;
 	Pitch = 0.0f;
+	Roll = 0.0f;
 
 	updateCameraVectors();
 }
@@ -42,8 +45,8 @@ DllExport void Camera::thirdPersonCamera(glm::vec3 target)
 	float camX = sin(glfwGetTime()) * radius;
 	float camZ = cos(glfwGetTime()) * radius;
 
-	//cameraPos.x = camX;
-	//cameraPos.z = camZ;
+	cameraPos.x = camX;
+	cameraPos.z = camZ;
 
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, target, cameraUp);
 }
@@ -68,42 +71,12 @@ DllExport void Camera::moveLeft()
 	cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
-void Camera::followCursor()
+void Camera::followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY)
 {
-	float xoffset = 0, yoffset = 0;
 
-	if (Input::getKeyPressed(GLFW_KEY_SPACE))
-	{
-		xoffset = Input::getMouseX();
-		yoffset = Input::getMouseY();
-	}
+	cameraRotationX(mousePosition.x, mouseSensitivityX);
+	cameraRotationY(mousePosition.y, mouseSensitivityY);
 
-	//if (Input::getKeyPressed(GLFW_KEY_Q))
-	//{
-	//	yoffset += 50.0f;
-	//}
-
-	//if (Input::getKeyPressed(GLFW_KEY_E))
-	//{
-	//	yoffset -= 50.0f;
-	//}
-
-	xoffset *= MouseSensitivity;
-	yoffset *= MouseSensitivity;
-
-	Yaw += xoffset;
-	Pitch += yoffset;
-
-	// make sure that when pitch is out of bounds, screen doesn't get flipped
-	//if (constrainPitch)
-	{
-		if (Pitch > 89.0f)
-			Pitch = 89.0f;
-		if (Pitch < -89.0f)
-			Pitch = -89.0f;
-	}
-
-	// update Front, Right and Up Vectors using the updated Euler angles
 	updateCameraVectors();
 }
 
@@ -115,8 +88,50 @@ void Camera::updateCameraVectors()
 	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	front.y = sin(glm::radians(Pitch));
 	front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+
 	cameraFront = glm::normalize(front);
-	// also re-calculate the Right and Up vector
-	cameraRight = glm::normalize(glm::cross(cameraFront, cameraWorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-	cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
+
+	glm::mat4 roll_mat = glm::rotate(glm::mat4(1.0f), glm::radians(Roll), front);
+	cameraUp = glm::normalize(glm::mat3(roll_mat) * cameraUp);
+
+	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+
+
+}
+
+
+void Camera::cameraRotationX(float rotationValue, float sensitivity)
+{
+	rotationValue *= sensitivity;
+
+	Yaw += rotationValue;
+
+	if (this->Yaw > 360.0f || this->Yaw < -360.0f)
+		this->Yaw = 0.0f;
+
+	updateCameraVectors();
+}
+
+void Camera::cameraRotationZ(float rotationValue, float sensitivity)
+{
+	rotationValue *= sensitivity;
+
+	Roll += rotationValue;
+
+	if (this->Roll > 360.0f || this->Roll < -360.0f)
+		this->Roll = 0.0f;
+
+	updateCameraVectors();
+}
+
+void Camera::cameraRotationY(float rotationValue, float sensitivity)
+{
+	rotationValue *= sensitivity;
+
+	Pitch += -rotationValue;
+
+	if (this->Pitch > 360.0f || this->Pitch < -360.0f)
+		this->Pitch = 0.0f;
+
+	updateCameraVectors();
 }

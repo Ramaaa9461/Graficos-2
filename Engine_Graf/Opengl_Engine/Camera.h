@@ -24,6 +24,7 @@ private:
 
 	float Yaw;
 	float Pitch;
+	float Roll;
 
 	float cameraSpeed;
 	float MouseSensitivity;
@@ -41,8 +42,13 @@ public:
 	DllExport void firstPersonCamera();
 	DllExport void thirdPersonCamera(glm::vec3 target);
 	
-	DllExport void followCursor();
+	DllExport void followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY);
 	
+	DllExport void cameraRotationX(float rotationValue, float sensitivity);
+	DllExport void cameraRotationY(float rotationValue, float sensitivity);
+	DllExport void cameraRotationZ(float rotationValue, float sensitivity);
+
+
 	DllExport void moveForward();
 	DllExport void moveBack();
 	DllExport void moveRight();
