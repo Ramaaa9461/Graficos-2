@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "glm/glm.hpp"
 
+#include "Entity.h"
 #include "Input.h"
 
 #include "DDLExport.h"
@@ -27,8 +28,6 @@ private:
 	float Roll;
 
 	float cameraSpeed;
-	float MouseSensitivity;
-	float Zoom;
 
 
 	void updateCameraVectors();
@@ -40,7 +39,7 @@ public:
 
 
 	DllExport void firstPersonCamera();
-	DllExport void thirdPersonCamera(glm::vec3 target);
+	DllExport void thirdPersonCamera(glm::vec3 target, glm::vec3 offsetCamera);
 	
 	DllExport void followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY);
 	

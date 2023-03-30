@@ -14,14 +14,12 @@ DllExport Camera::Camera()
 	//cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	//cameraUp = glm::cross(cameraDirection, cameraRight);
 
-	cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	cameraPos = glm::vec3(0.0f, 0.0f, 10.0f);
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	cameraWorldUp = cameraUp;
 
 	cameraSpeed = 2.5f;
-	MouseSensitivity = 0.01f;
-	Zoom = 45.0f;
 	Yaw = -90.0f;
 	Pitch = 0.0f;
 	Roll = 0.0f;
@@ -39,16 +37,15 @@ DllExport void Camera::firstPersonCamera()
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
 
-DllExport void Camera::thirdPersonCamera(glm::vec3 target)
+DllExport void Camera::thirdPersonCamera(glm::vec3 target, glm::vec3 offsetCamera)
 {
-	const float radius = 10.0f;
-	float camX = sin(glfwGetTime()) * radius;
-	float camZ = cos(glfwGetTime()) * radius;
+	float r = 20.0f;
+	
+	cameraPos = target + cameraFront * r;// glm::length(cameraPos - target);
 
-	cameraPos.x = camX;
-	cameraPos.z = camZ;
 
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, target, cameraUp);
+
 }
 
 DllExport void Camera::moveForward()
@@ -73,13 +70,11 @@ DllExport void Camera::moveLeft()
 
 void Camera::followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY)
 {
-
 	cameraRotationX(mousePosition.x, mouseSensitivityX);
 	cameraRotationY(mousePosition.y, mouseSensitivityY);
 
 	updateCameraVectors();
 }
-
 
 void Camera::updateCameraVectors()
 {
@@ -98,7 +93,6 @@ void Camera::updateCameraVectors()
 
 
 }
-
 
 void Camera::cameraRotationX(float rotationValue, float sensitivity)
 {
