@@ -22,6 +22,8 @@ private:
 	Sprite* falloutSprite;
 	Sprite* falloutSprite2;
 
+	float radius = 20.0f;
+
 public:
 
 	Game();

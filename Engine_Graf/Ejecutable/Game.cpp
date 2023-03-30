@@ -51,17 +51,12 @@ void Game::Input()
 
 	if (Input::getKeyPressed(GLFW_KEY_Q) || Input::getKeyPressed(GLFW_KEY_Q + 32))
 	{
-		camera->cameraRotationX(70.0f * Timer::getTimer()->timeBetweenFrames(), 1.0f);
+		radius += 10.0f * Timer::getTimer()->timeBetweenFrames();
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_E) || Input::getKeyPressed(GLFW_KEY_E + 32))
 	{
-		camera->cameraRotationY(70.0f * Timer::getTimer()->timeBetweenFrames(), 1.0f);
+		radius -= 10.0f * Timer::getTimer()->timeBetweenFrames();
 	}
-	else if (Input::getKeyPressed(GLFW_KEY_Z) || Input::getKeyPressed(GLFW_KEY_Z + 32))
-	{
-		camera->cameraRotationZ(10.0f * Timer::getTimer()->timeBetweenFrames(), 0.5f);
-	}
-
 
 
 
@@ -94,7 +89,7 @@ void Game::Update()
 		falloutSprite->drawTexture();
 		falloutSprite2->drawTexture();
 		
-		camera->thirdPersonCamera(rectangleShape->getPosition(), glm::vec3(0.0f, 0.0f, 20.0f));
+		camera->thirdPersonCamera(rectangleShape->getPosition(), radius);
 		
 
 		//camera->firstPersonCamera();
