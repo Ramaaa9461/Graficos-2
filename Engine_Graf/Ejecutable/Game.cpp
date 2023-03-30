@@ -17,7 +17,14 @@ void Game::Init()
 {
 	camera = new Camera();
 	rectangleShape = new RectangleShape(0, 0);
+	falloutSprite = new Sprite("Logo.jpg", 10, 0);
+	falloutSprite2 = new Sprite("Logo.jpg", -10, 0);
 
+
+	falloutSprite->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
+	//falloutSprite->setRotation(glm::vec3(70.0f, 60.0f, 0.0f));
+	
+	falloutSprite2->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
 
 	rectangleShape->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
 
@@ -42,6 +49,21 @@ void Game::Input()
 		camera->moveForward();
 	}
 
+	if (Input::getKeyPressed(GLFW_KEY_Q) || Input::getKeyPressed(GLFW_KEY_Q + 32))
+	{
+		camera->cameraRotationX(70.0f * Timer::getTimer()->timeBetweenFrames(), 1.0f);
+	}
+	else if (Input::getKeyPressed(GLFW_KEY_E) || Input::getKeyPressed(GLFW_KEY_E + 32))
+	{
+		camera->cameraRotationY(70.0f * Timer::getTimer()->timeBetweenFrames(), 1.0f);
+	}
+	else if (Input::getKeyPressed(GLFW_KEY_Z) || Input::getKeyPressed(GLFW_KEY_Z + 32))
+	{
+		camera->cameraRotationZ(10.0f * Timer::getTimer()->timeBetweenFrames(), 0.5f);
+	}
+
+
+
 
 	if (Input::getKeyPressed(GLFW_KEY_LEFT))
 	{
@@ -60,16 +82,6 @@ void Game::Input()
 		rectangleShape->addPosition(glm::vec3(0, 5, 0));
 	}
 
-	/*rectangleShape->setPosition(glm::vec3(Input::getMousePosition().x, -Input::getMousePosition().y, 0.0f));
-
-	if (Input::getMouseButtonPressed(0))
-	{
-		animation1->setPosition(glm::vec3(Input::getMousePosition().x, -Input::getMousePosition().y, 0.0f));
-	}
-	if (Input::getMouseButtonPressed(1))
-	{
-		animation->setPosition(glm::vec3(Input::getMousePosition().x, -Input::getMousePosition().y, 0.0f));
-	}*/
 }
 
 void Game::Update()
@@ -79,8 +91,13 @@ void Game::Update()
 	//Render here-------------------------
 	{
 		rectangleShape->draw();
-		//camera->thirdPersonCamera(rectangleShape->getPosition());
-		camera->firstPersonCamera();
+		falloutSprite->drawTexture();
+		falloutSprite2->drawTexture();
+		
+		camera->thirdPersonCamera(rectangleShape->getPosition(), glm::vec3(0.0f, 0.0f, 20.0f));
+		
+
+		//camera->firstPersonCamera();
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
 	
 		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
@@ -97,7 +114,8 @@ void Game::Update()
 
 void Game::DeInit()
 {
-
 	delete camera;
+	delete falloutSprite;
+	delete falloutSprite2;
 	delete rectangleShape;
 }

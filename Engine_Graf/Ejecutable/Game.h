@@ -19,6 +19,8 @@ private:
 
 	Camera* camera;
 	Entity2d* rectangleShape;
+	Sprite* falloutSprite;
+	Sprite* falloutSprite2;
 
 public:
 
