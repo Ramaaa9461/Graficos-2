@@ -4,7 +4,6 @@
 #include "glm/glm.hpp"
 
 #include "Entity.h"
-#include "Input.h"
 
 #include "DDLExport.h"
 
@@ -39,7 +38,7 @@ public:
 
 
 	DllExport void firstPersonCamera();
-	DllExport void thirdPersonCamera(glm::vec3 target, glm::vec3 offsetCamera);
+	DllExport void thirdPersonCamera(glm::vec3 target, float radiusCameraOrbit);
 	
 	DllExport void followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY);
 	

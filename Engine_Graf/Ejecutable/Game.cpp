@@ -23,7 +23,7 @@ void Game::Init()
 
 	falloutSprite->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
 	//falloutSprite->setRotation(glm::vec3(70.0f, 60.0f, 0.0f));
-	
+
 	falloutSprite2->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
 
 	rectangleShape->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
@@ -58,7 +58,18 @@ void Game::Input()
 		radius -= 10.0f * Timer::getTimer()->timeBetweenFrames();
 	}
 
+	radius += Input::getScrollInput() * Timer::getTimer()->timeBetweenFrames();
+	
+	if (radius < 8.0f)
+	{
+		radius = 8.1f;
+	}
+	else if (radius > 100.0f)
+	{
+		radius = 99.9f;
+	}
 
+	std::cout << "R = " << radius << std::endl;
 
 	if (Input::getKeyPressed(GLFW_KEY_LEFT))
 	{
@@ -88,13 +99,13 @@ void Game::Update()
 		rectangleShape->draw();
 		falloutSprite->drawTexture();
 		falloutSprite2->drawTexture();
-		
+
 		camera->thirdPersonCamera(rectangleShape->getPosition(), radius);
-		
+
 
 		//camera->firstPersonCamera();
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
-	
+
 		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
 		//camera->cameraRotationY(Input::getMousePosition().y * Timer::getTimer()->timeBetweenFrames(), 0.1f);
 		//camera->cameraRotationZ(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);

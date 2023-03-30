@@ -12,6 +12,8 @@
 
 #include "Camera.h"
 
+#include <iostream>
+
 class Game : public BaseGame
 {
 

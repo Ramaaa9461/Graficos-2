@@ -37,15 +37,12 @@ DllExport void Camera::firstPersonCamera()
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
 
-DllExport void Camera::thirdPersonCamera(glm::vec3 target, glm::vec3 offsetCamera)
+DllExport void Camera::thirdPersonCamera(glm::vec3 target, float radiusCameraOrbit)
 {
-	float r = 20.0f;
-	
-	cameraPos = target + cameraFront * r;// glm::length(cameraPos - target);
+	cameraPos = target + cameraFront * radiusCameraOrbit; // glm::length(cameraPos - target);
 
 
 	Renderer::getRenderer()->view = glm::lookAt(cameraPos, target, cameraUp);
-
 }
 
 DllExport void Camera::moveForward()

@@ -181,12 +181,9 @@
     <ClCompile Include="src\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="src\vendor\stb_image\stb_image.cpp" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TriangleShape.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\Basic.shader" />
@@ -221,12 +218,9 @@
     <ClInclude Include="src\vendor\imgui\stb_truetype.h" />
     <ClInclude Include="src\vendor\ShaderType.h" />
     <ClInclude Include="src\vendor\stb_image\stb_image.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="Tilemap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TriangleShape.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowInput.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Ejecutable\res\textures\Characters.png" />

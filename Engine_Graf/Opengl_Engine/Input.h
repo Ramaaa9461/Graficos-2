@@ -8,15 +8,19 @@ static class Input
 
 private:
 
+	static double xScroll , yScroll ;
+
 
 protected:
 
 	DllExport static bool IsKeyPressedImpl(int keycode);
 	DllExport static bool IsMouseButtonPressedImpl(int button);
-	
+
 	DllExport static float GetMouseXImpl();
 	DllExport static float GetMouseYImpl();
 	DllExport static glm::vec2 getMousePositionImpl();
+	
+	DllExport static float getScrollImpl();
 
 public:
 
@@ -27,6 +31,8 @@ public:
 	DllExport inline static float getMouseX() { return GetMouseXImpl(); };
 	DllExport inline static float getMouseY() { return GetMouseYImpl(); };
 	DllExport inline static glm::vec2 getMousePosition() { return getMousePositionImpl(); };
+
+	DllExport inline static float getScrollInput() { return getScrollImpl(); };
 	
 
 
