@@ -3,8 +3,7 @@
 #include "ImGuiEngine.h"
 
 
-
-DllExport Entity2d::Entity2d(int initPositionX, int initPositionY) : Entity(initPositionX, initPositionY)
+DllExport Entity2d::Entity2d(int initPositionX, int initPositionY) : Entity(initPositionX, initPositionY, 0)
 {
 }
 

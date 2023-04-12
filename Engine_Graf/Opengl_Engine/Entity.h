@@ -24,7 +24,7 @@
 		glm::mat4 TRS = glm::mat4(1);
 
 	public:
-		DllExport Entity(int initPositionX, int initPositionY);
+		DllExport Entity(int initPositionX, int initPositionY, int initPositionZ);
 		DllExport ~Entity();
 
 		DllExport void setPosition(glm::vec3 newPosition);
@@ -43,17 +43,26 @@
 	
 		DllExport void setPositionX(float posX);
 		DllExport void setPositionY(float posY);
+		DllExport void setPositionZ(float posY);
 
 		DllExport float getPositionX();
 		DllExport float getPositionY();
+		DllExport float getPositionZ();
 
 		DllExport void  setScaleX(float scalX);
 		DllExport void  setScaleY(float scalY);
+		DllExport void  setScaleZ(float scalZ);
 				 
 		DllExport float getScaleX();
 		DllExport float getScaleY();
+		DllExport float getScaleZ();
 
+		DllExport void  setRotationX(float rotX);
+		DllExport void  setRotationY(float rotY);
 		DllExport void  setRotationZ(float rotZ);
+
+		DllExport float getRotationX();
+		DllExport float getRotationY();
 		DllExport float getRotationZ();
 	};
 

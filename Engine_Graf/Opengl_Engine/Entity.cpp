@@ -5,11 +5,11 @@
 
 int Entity::instanceCounter = 0;
 
-DllExport Entity::Entity(int initPositionX, int initPositionY)
+DllExport Entity::Entity(int initPositionX, int initPositionY, int initPositionZ)
 {
-	translation = glm::vec3(initPositionX, initPositionY, 0);
+	translation = glm::vec3(initPositionX, initPositionY, initPositionZ);
 	rotation = glm::vec3(0, 0, 0);
-	scale = glm::vec3(1, 1, 0);
+	scale = glm::vec3(1, 1, 1);
 
 	id = instanceCounter;
 	instanceCounter++;
@@ -90,6 +90,12 @@ DllExport void Entity::setPositionY(float posY)
 	UpdateTRSMat();
 }
 
+DllExport void Entity::setPositionZ(float posZ)
+{
+	translation.z = posZ;
+	UpdateTRSMat();
+}
+
 DllExport float Entity::getPositionX()
 {
 	return translation.x;
@@ -98,6 +104,11 @@ DllExport float Entity::getPositionX()
 DllExport float Entity::getPositionY()
 {
 	return translation.y;
+}
+
+DllExport float Entity::getPositionZ()
+{
+	return translation.z;
 }
 
 
@@ -111,6 +122,11 @@ DllExport void Entity::setScaleY(float scalY)
 	scale.y = scalY;
 	UpdateTRSMat();
 }
+
+DllExport void Entity::setScaleZ(float scalZ)
+{
+	 scale.z = scalZ;
+}
 	  
 DllExport float Entity::getScaleX()
 {
@@ -122,10 +138,35 @@ DllExport float Entity::getScaleY()
 	return scale.y;
 }
 
+float Entity::getScaleZ()
+{
+	return scale.z;
+}
+
+void Entity::setRotationX(float rotX)
+{
+	rotation.x = rotX;
+}
+
+void Entity::setRotationY(float rotY)
+{
+	rotation.y = rotY;
+}
+
 DllExport void Entity::setRotationZ(float rotZ)
 {
 	rotation.z = rotZ;
 	UpdateTRSMat();
+}
+
+float Entity::getRotationX()
+{
+	return rotation.x;
+}
+
+float Entity::getRotationY()
+{
+	return rotation.y;
 }
 
 DllExport float Entity::getRotationZ()
