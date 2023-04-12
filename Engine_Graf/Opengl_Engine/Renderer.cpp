@@ -47,12 +47,18 @@
 		//proj = glm::ortho(0.0f, (float)window->WINDOW_WIDTH, 0.0f, (float)window->WINDOW_HEIGHT, -1.0f, 1.0f); //Proyeccion ortografica
 		proj = glm::perspective(glm::radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 		view = glm::lookAt(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+
 	}
 
 
 	DllExport void Renderer::Clear() const
 	{
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));	
+	//	GLCall(glClear(GL_COLOR_BUFFER_BIT));	
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	}
 
 	DllExport void Renderer::Draw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const
