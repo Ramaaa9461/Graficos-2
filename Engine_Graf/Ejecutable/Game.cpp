@@ -20,9 +20,9 @@ void Game::Init()
 	falloutSprite = new Sprite("Logo.jpg", 10, 0);
 	falloutSprite2 = new Sprite("Logo.jpg", -10, 0);
 
+	cube = new Cube(0, 0, 5);
 
 	falloutSprite->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
-	//falloutSprite->setRotation(glm::vec3(70.0f, 60.0f, 0.0f));
 
 	falloutSprite2->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
 
@@ -69,7 +69,6 @@ void Game::Input()
 		radius = 99.9f;
 	}
 
-	std::cout << "R = " << radius << std::endl;
 
 	if (Input::getKeyPressed(GLFW_KEY_LEFT))
 	{
@@ -86,8 +85,7 @@ void Game::Input()
 	else if (Input::getKeyPressed(GLFW_KEY_UP))
 	{
 		rectangleShape->addPosition(glm::vec3(0, 5, 0));
-	}
-
+	}	
 }
 
 void Game::Update()
@@ -96,15 +94,16 @@ void Game::Update()
 
 	//Render here-------------------------
 	{
+		cube->draw();
 		rectangleShape->draw();
 		falloutSprite->drawTexture();
 		falloutSprite2->drawTexture();
 
-		camera->thirdPersonCamera(rectangleShape->getPosition(), radius);
-
-
+		camera->thirdPersonCamera(cube->getPosition(), radius);
 		//camera->firstPersonCamera();
+		
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
+		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.08f);
 
 		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
 		//camera->cameraRotationY(Input::getMousePosition().y * Timer::getTimer()->timeBetweenFrames(), 0.1f);
@@ -113,14 +112,12 @@ void Game::Update()
 	//------------------------------------
 
 	//ImGui visual sliders
-
-
-
 }
 
 void Game::DeInit()
 {
 	delete camera;
+	delete cube;
 	delete falloutSprite;
 	delete falloutSprite2;
 	delete rectangleShape;

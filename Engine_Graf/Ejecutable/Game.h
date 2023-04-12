@@ -5,12 +5,12 @@
 
 #include "Shape.h"
 #include "RectangleShape.h"
-#include "TriangleShape.h"
 #include "Sprite.h"
 #include "ImGuiEngine.h"
 #include "CollisionManager.h"
 
 #include "Camera.h"
+#include "Cube.h"
 
 #include <iostream>
 
@@ -23,6 +23,7 @@ private:
 	Entity2d* rectangleShape;
 	Sprite* falloutSprite;
 	Sprite* falloutSprite2;
+	Cube* cube;
 
 	float radius = 20.0f;
 

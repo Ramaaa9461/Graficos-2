@@ -21,6 +21,7 @@ DllExport void BaseGame::run()
 
 	Init();
 
+
 	while (window->getWindowsShouldClose())
 	{
 		renderer->Clear();
