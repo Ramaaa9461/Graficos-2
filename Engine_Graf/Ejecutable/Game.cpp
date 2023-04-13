@@ -16,18 +16,14 @@ Game::~Game()
 void Game::Init()
 {
 	camera = new Camera();
-	rectangleShape = new RectangleShape(0, 0);
-	falloutSprite = new Sprite("Logo.jpg", 10, 0);
-	falloutSprite2 = new Sprite("Logo.jpg", -10, 0);
 
-	cube = new Cube(0, 0, 5);
+	cube = new Cube(-5, 0, 0);
+	cube1 = new Cube(0, 0, 0);
+	cube2 = new Cube(5, 0, 0);
 
-	falloutSprite->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
-
-	falloutSprite2->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
-
-	rectangleShape->setScale(glm::vec3(0.05f, 0.05f, 1.0f));
-
+	cube->setColor( glm::vec4(0.2f, 0.6f, 0.f, 1.0f));
+	cube1->setColor(glm::vec4(0.4f, 0.4f, 0.4f, 1.0f));
+	cube2->setColor(glm::vec4(0.6f, 0.2f, 0.9f, 1.0f));
 }
 
 void Game::Input()
@@ -72,19 +68,19 @@ void Game::Input()
 
 	if (Input::getKeyPressed(GLFW_KEY_LEFT))
 	{
-		rectangleShape->addPosition(glm::vec3(-5, 0, 0));
+		cube1->addPosition(glm::vec3(-5, 0, 0));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_DOWN))
 	{
-		rectangleShape->addPosition(glm::vec3(0, -5, 0));
+		cube1->addPosition(glm::vec3(0, -5, 0));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_RIGHT))
 	{
-		rectangleShape->addPosition(glm::vec3(5, 0, 0));
+		cube1->addPosition(glm::vec3(5, 0, 0));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_UP))
 	{
-		rectangleShape->addPosition(glm::vec3(0, 5, 0));
+		cube1->addPosition(glm::vec3(0, 5, 0));
 	}	
 }
 
@@ -95,19 +91,14 @@ void Game::Update()
 	//Render here-------------------------
 	{
 		cube->draw();
-		rectangleShape->draw();
-		falloutSprite->drawTexture();
-		falloutSprite2->drawTexture();
+		cube1->draw();
+		cube2->draw();
+	
 
-		camera->thirdPersonCamera(cube->getPosition(), radius);
+		camera->thirdPersonCamera(cube1->getPosition(), radius);
 		//camera->firstPersonCamera();
 		
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
-		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.08f);
-
-		//camera->cameraRotationX(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
-		//camera->cameraRotationY(Input::getMousePosition().y * Timer::getTimer()->timeBetweenFrames(), 0.1f);
-		//camera->cameraRotationZ(Input::getMousePosition().x * Timer::getTimer()->timeBetweenFrames(), 0.01f);
 	}
 	//------------------------------------
 
@@ -118,7 +109,6 @@ void Game::DeInit()
 {
 	delete camera;
 	delete cube;
-	delete falloutSprite;
-	delete falloutSprite2;
-	delete rectangleShape;
+	delete cube1;
+	delete cube2;
 }

@@ -20,10 +20,10 @@ class Game : public BaseGame
 private:
 
 	Camera* camera;
-	Entity2d* rectangleShape;
-	Sprite* falloutSprite;
-	Sprite* falloutSprite2;
+	
 	Cube* cube;
+	Cube* cube1;
+	Cube* cube2;
 
 	float radius = 20.0f;
 

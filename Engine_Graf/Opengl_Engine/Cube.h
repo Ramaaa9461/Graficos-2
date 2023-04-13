@@ -10,7 +10,7 @@ private:
 
     int width, height, depth;
     
-    static const int VERTEXPOSITIONSCOUNT = 72;
+    static const int VERTEXPOSITIONSCOUNT = 144;
     static const int INDEXSCOUNT = 36;
 
     float positions[VERTEXPOSITIONSCOUNT];
