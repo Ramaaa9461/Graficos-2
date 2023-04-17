@@ -12,6 +12,7 @@ DllExport Shader::Shader(ShaderType shaderType)
 	m_RendererID = 0;
 	ShaderProgramSource source;// = ParseShader("filepath");
 	source.VertexSource = vertexShader;
+
 	if (shaderType == ShaderType::whithTexture)
 	{
 		source.FragmentSource = fragmentShaderWithTexture;
@@ -48,6 +49,11 @@ DllExport void Shader::SetUniformsMat4f(const std::string name, const glm::mat4&
 {
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
+
+//void Shader::SetUniforms3f(const std::string name, float v0, float v1, float v2)
+//{
+//	GLCall(glUniform3f(GetUniformLocation(name), v0, v1, v2));
+//}
 
 DllExport void Shader::SetUniforms1f(const std::string name, float value)
 {

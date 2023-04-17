@@ -23,7 +23,11 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 
 	shader = new Shader(shaderType);
 	shader->Bind();
+
+	shader->SetUniforms1f("ambientStrength", 1.0f);
 	shader->SetUniforms4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
+	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+
 
 	va->Unbind();
 	vb->UnBind();

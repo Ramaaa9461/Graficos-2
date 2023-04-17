@@ -29,14 +29,14 @@ private:
 		"\n"
 		"layout(location = 0) in vec4 position;"
 		"\n"
-		"layout(location = 1) in vec2 texCoord;"
+		"layout(location = 1) in vec3 normal;"
 		"\n"
-		"out vec2 v_TexCoord;\n"
+		"out vec3 v_Normal;\n"
 		"uniform mat4 u_MVP;\n"
 		"void main()\n"
 		"{\n"
 		"	gl_Position = u_MVP * position;\n"
-		"	v_TexCoord = texCoord;\n"
+		"	v_Normal = normal;\n"
 		"};\n";
 
 	std::string fragmentShaderWithTexture =
@@ -64,13 +64,34 @@ private:
 		"\n"
 		"	layout(location = 0) out vec4 color;"
 		"\n"
-		"	uniform vec4 u_Color;"
+		"uniform vec4 u_Color;"
+		"\n"
+		"uniform vec4 lightColor;"
+		"\n"
+		"uniform vec4 objectColor;"
+		"\n"
+		"uniform float ambientStrength;"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"	color = u_Color;"
+		"   vec4 ambient = ambientStrength * lightColor;\n"
+		"   vec4 result = ambient * u_Color;\n"
+		"	color = result;"
 		"};\n";
 
+	/*
+	"#version 330 core\n"
+    "out vec4 FragColor;\n"
+    "uniform vec3 lightColor;\n"
+    "uniform vec3 objectColor;\n"
+    "void main()\n"
+    "{\n"
+    "   float ambientStrength = 0.2f;\n"
+    "   vec3 ambient = ambientStrength * lightColor;\n"
+    "   vec3 result = ambient * objectColor;\n"
+    "   FragColor = vec4(result, 1.0f);\n"
+    "}\n\0";
+	*/
 
 #pragma endregion
 

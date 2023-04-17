@@ -95,7 +95,7 @@ void Game::Update()
 		cube2->draw();
 	
 
-		camera->thirdPersonCamera(cube1->getPosition(), radius);
+//		camera->thirdPersonCamera(cube1->getPosition(), radius);
 		//camera->firstPersonCamera();
 		
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
