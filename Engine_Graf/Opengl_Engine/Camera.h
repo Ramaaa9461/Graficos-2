@@ -49,6 +49,8 @@ public:
 
 	DllExport void moveForward();
 	DllExport void moveBack();
+	DllExport void moveUp();
+	DllExport void moveDown();
 	DllExport void moveRight();
 	DllExport void moveLeft();
 

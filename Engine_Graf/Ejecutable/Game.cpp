@@ -44,14 +44,24 @@ void Game::Input()
 	{
 		camera->moveForward();
 	}
+	else if (Input::getKeyPressed(GLFW_KEY_X) || Input::getKeyPressed(GLFW_KEY_X + 32))
+	{
+		camera->moveUp();
+	}
+	else if (Input::getKeyPressed(GLFW_KEY_Z) || Input::getKeyPressed(GLFW_KEY_Z + 32))
+	{
+		camera->moveDown();
+	}
+
 
 	if (Input::getKeyPressed(GLFW_KEY_Q) || Input::getKeyPressed(GLFW_KEY_Q + 32))
 	{
-		radius += 10.0f * Timer::getTimer()->timeBetweenFrames();
+		camera->cameraRotationY(10.0f, 0.2f);
+			
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_E) || Input::getKeyPressed(GLFW_KEY_E + 32))
 	{
-		radius -= 10.0f * Timer::getTimer()->timeBetweenFrames();
+		camera->cameraRotationY(-10.0f, 0.2f);
 	}
 
 	radius += Input::getScrollInput() * Timer::getTimer()->timeBetweenFrames();
@@ -95,8 +105,8 @@ void Game::Update()
 		cube2->draw();
 	
 
-//		camera->thirdPersonCamera(cube1->getPosition(), radius);
-		//camera->firstPersonCamera();
+		//camera->thirdPersonCamera(cube1->getPosition(), radius);
+		camera->firstPersonCamera();
 		
 		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
 	}

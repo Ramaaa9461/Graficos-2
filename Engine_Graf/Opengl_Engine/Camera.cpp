@@ -55,6 +55,16 @@ DllExport void Camera::moveBack()
 	cameraPos -= cameraSpeed * cameraFront;
 }
 
+DllExport void Camera::moveUp()
+{
+	cameraPos += cameraSpeed * cameraUp;
+}
+
+DllExport void Camera::moveDown()
+{
+	cameraPos -= cameraSpeed * cameraUp;
+}
+
 DllExport void Camera::moveRight()
 {
 	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;

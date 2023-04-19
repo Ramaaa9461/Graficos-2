@@ -9,7 +9,7 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 
 	va = new VertexArray();
 	//vb = new VertexBuffer(positions, 4 * 4 * sizeof(float)); Como se hace en el RectangleShape
-	vb = new VertexBuffer(positions, VERTEXPOSITIONSCOUNT * 3 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
+	vb = new VertexBuffer(positions, VERTEXPOSITIONSCOUNT * 6 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
 
 	layout = VertexBufferLayout();
 	layout.Push<float>(3);		
@@ -24,9 +24,15 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 	shader = new Shader(shaderType);
 	shader->Bind();
 
-	shader->SetUniforms1f("ambientStrength", 1.0f);
 	shader->SetUniforms4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
+
 	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+	shader->SetUniforms4f("lightPos", 10.0f, 10.0f, 10.0f, 1.0f);
+
+	shader->SetUniforms4f("viewPos", 0.0f, 0.0f, 10.0f, 1.0f);
+	
+	shader->SetUniforms1f("ambientStrength", 1.0f);
+	shader->SetUniforms1f("specularStrength", 0.5f);
 
 
 	va->Unbind();
@@ -51,22 +57,22 @@ DllExport void Cube::setVertices()
 	float vertexs[] =
 	{
 		// Cara frontal
-   -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 0
-	0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 1
-	0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 2
-   -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 3
-
-   // Cara trasera
-	0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 4
-   -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 5
-   -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 6
-	0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 7
-
-   // Cara superior
-   -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 8
-	0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 9
-	0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 10
-   -0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 11
+	   -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 0
+		0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 1
+		0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 2
+	   -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 3
+	
+	   // Cara trasera
+		0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 4
+	   -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 5
+	   -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 6
+		0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 7
+	
+	   // Cara superior
+	   -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 8
+		0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 9
+		0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 10
+	   -0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 11
 
 		// Cara inferior
 		 0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f, // Vértice 12
