@@ -24,6 +24,7 @@ private:
 	Cube* cube;
 	Cube* cube1;
 	Cube* cube2;
+	Cube* ligth;
 
 	float radius = 20.0f;
 

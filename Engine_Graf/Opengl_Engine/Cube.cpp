@@ -27,12 +27,12 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 	shader->SetUniforms4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
 
 	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-	shader->SetUniforms4f("lightPos", 10.0f, 10.0f, 10.0f, 1.0f);
+	shader->SetUniforms4f("lightPos", -10.0f, 0.0f, 0.0f, 1.0f);
 
 	shader->SetUniforms4f("viewPos", 0.0f, 0.0f, 10.0f, 1.0f);
 	
-	shader->SetUniforms1f("ambientStrength", 1.0f);
-	shader->SetUniforms1f("specularStrength", 0.5f);
+	shader->SetUniforms1f("ambientStrength", 0.2f);
+	shader->SetUniforms1f("specularStrength", 10.5f);
 
 
 	va->Unbind();
@@ -45,6 +45,20 @@ DllExport void Cube::setColor(glm::vec4 RGBA)
 {
 	shader->Bind();
 	shader->SetUniforms4f("u_Color", RGBA.x, RGBA.y, RGBA.z, RGBA.w);
+	shader->Unbind();
+}
+
+void Cube::updateCameraPos(glm::vec3 cameraPos)
+{
+	shader->Bind();
+	shader->SetUniforms4f("viewPos", cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
+	shader->Unbind();
+}
+
+void Cube::updateLigthPos(glm::vec3 ligthPos)
+{
+	shader->Bind();
+	shader->SetUniforms4f("lightPos", ligthPos.x, ligthPos.y, ligthPos.z, 1.0f);
 	shader->Unbind();
 }
 

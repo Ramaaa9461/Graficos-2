@@ -19,7 +19,7 @@ DllExport Camera::Camera()
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	cameraWorldUp = cameraUp;
 
-	cameraSpeed = 2.5f;
+	cameraSpeed = 0.5f;
 	Yaw = -90.0f;
 	Pitch = 0.0f;
 	Roll = 0.0f;
@@ -136,3 +136,11 @@ void Camera::cameraRotationY(float rotationValue, float sensitivity)
 
 	updateCameraVectors();
 }
+
+DllExport glm::vec3 Camera::getCameraPositon()
+{
+	return cameraPos;
+}
+
+
+

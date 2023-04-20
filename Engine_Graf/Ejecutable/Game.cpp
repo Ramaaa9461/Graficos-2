@@ -21,9 +21,12 @@ void Game::Init()
 	cube1 = new Cube(0, 0, 0);
 	cube2 = new Cube(5, 0, 0);
 
-	cube->setColor( glm::vec4(0.2f, 0.6f, 0.f, 1.0f));
-	cube1->setColor(glm::vec4(0.4f, 0.4f, 0.4f, 1.0f));
-	cube2->setColor(glm::vec4(0.6f, 0.2f, 0.9f, 1.0f));
+	ligth = new Cube(0, 5, 0);
+	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+	cube->setColor( glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	cube1->setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	cube2->setColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 }
 
 void Game::Input()
@@ -78,19 +81,19 @@ void Game::Input()
 
 	if (Input::getKeyPressed(GLFW_KEY_LEFT))
 	{
-		cube1->addPosition(glm::vec3(-5, 0, 0));
-	}
-	else if (Input::getKeyPressed(GLFW_KEY_DOWN))
-	{
-		cube1->addPosition(glm::vec3(0, -5, 0));
+		ligth->addPosition(glm::vec3(-1, 0, 0));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_RIGHT))
 	{
-		cube1->addPosition(glm::vec3(5, 0, 0));
+		ligth->addPosition(glm::vec3(1, 0, 0));
+	}
+	else if (Input::getKeyPressed(GLFW_KEY_DOWN))
+	{
+		ligth->addPosition(glm::vec3(0, 0, 1));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_UP))
 	{
-		cube1->addPosition(glm::vec3(0, 5, 0));
+		ligth->addPosition(glm::vec3(0, 0, -1));
 	}	
 }
 
@@ -103,8 +106,18 @@ void Game::Update()
 		cube->draw();
 		cube1->draw();
 		cube2->draw();
-	
 
+		ligth->draw();
+	
+		cube->updateCameraPos(camera->getCameraPositon());
+		cube1->updateCameraPos(camera->getCameraPositon());
+		cube2->updateCameraPos(camera->getCameraPositon());
+
+		cube->updateLigthPos(ligth->getPosition());
+		cube1->updateLigthPos(ligth->getPosition());
+		cube2->updateLigthPos(ligth->getPosition());
+		
+		
 		//camera->thirdPersonCamera(cube1->getPosition(), radius);
 		camera->firstPersonCamera();
 		
@@ -121,4 +134,6 @@ void Game::DeInit()
 	delete cube;
 	delete cube1;
 	delete cube2;
+
+	delete ligth;
 }

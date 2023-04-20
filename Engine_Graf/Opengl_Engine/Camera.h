@@ -54,5 +54,6 @@ public:
 	DllExport void moveRight();
 	DllExport void moveLeft();
 
+	DllExport glm::vec3 getCameraPositon();
 };
 
