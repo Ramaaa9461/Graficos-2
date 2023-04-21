@@ -34,7 +34,6 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 	shader->SetUniforms1f("ambientStrength", 0.2f);
 	shader->SetUniforms1f("specularStrength", 10.5f);
 
-
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();

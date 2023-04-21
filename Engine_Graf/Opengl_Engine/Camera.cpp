@@ -5,21 +5,10 @@
 
 DllExport Camera::Camera()
 {
-	//cameraPos = glm::vec3(0.0f, 0.0f, -10.0f);
-	//cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	//cameraDirection = glm::normalize(cameraPos - cameraTarget);
-
-	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	//cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	//cameraUp = glm::cross(cameraDirection, cameraRight);
-
 	cameraPos = glm::vec3(0.0f, 0.0f, 10.0f);
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-	cameraWorldUp = cameraUp;
 
-	cameraSpeed = 0.5f;
 	Yaw = -90.0f;
 	Pitch = 0.0f;
 	Roll = 0.0f;
@@ -32,53 +21,32 @@ DllExport Camera::~Camera()
 
 }
 
-DllExport void Camera::firstPersonCamera()
+void Camera::cameraRotationX(float rotationValue )
 {
-	Renderer::getRenderer()->view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	Yaw += rotationValue;
+
+	if (this->Yaw > 360.0f || this->Yaw < -360.0f)
+		this->Yaw = 0.0f;
+
+	updateCameraVectors();
 }
 
-DllExport void Camera::thirdPersonCamera(glm::vec3 target, float radiusCameraOrbit)
+void Camera::cameraRotationZ(float rotationValue )
 {
-	cameraPos = target + cameraFront * radiusCameraOrbit; // glm::length(cameraPos - target);
+	Roll += rotationValue;
 
+	if (this->Roll > 360.0f || this->Roll < -360.0f)
+		this->Roll = 0.0f;
 
-	Renderer::getRenderer()->view = glm::lookAt(cameraPos, target, cameraUp);
+	updateCameraVectors();
 }
 
-DllExport void Camera::moveForward()
+void Camera::cameraRotationY(float rotationValue)
 {
-	cameraPos += cameraSpeed * cameraFront;
-}
+	Pitch += -rotationValue;
 
-DllExport void Camera::moveBack()
-{
-	cameraPos -= cameraSpeed * cameraFront;
-}
-
-DllExport void Camera::moveUp()
-{
-	cameraPos += cameraSpeed * cameraUp;
-}
-
-DllExport void Camera::moveDown()
-{
-	cameraPos -= cameraSpeed * cameraUp;
-}
-
-DllExport void Camera::moveRight()
-{
-	cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-}
-
-DllExport void Camera::moveLeft()
-{
-	cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-}
-
-void Camera::followCursor(glm::vec2 mousePosition, float mouseSensitivityX, float mouseSensitivityY)
-{
-	cameraRotationX(mousePosition.x, mouseSensitivityX);
-	cameraRotationY(mousePosition.y, mouseSensitivityY);
+	if (this->Pitch > 360.0f || this->Pitch < -360.0f)
+		this->Pitch = 0.0f;
 
 	updateCameraVectors();
 }
@@ -99,42 +67,6 @@ void Camera::updateCameraVectors()
 	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 
 
-}
-
-void Camera::cameraRotationX(float rotationValue, float sensitivity)
-{
-	rotationValue *= sensitivity;
-
-	Yaw += rotationValue;
-
-	if (this->Yaw > 360.0f || this->Yaw < -360.0f)
-		this->Yaw = 0.0f;
-
-	updateCameraVectors();
-}
-
-void Camera::cameraRotationZ(float rotationValue, float sensitivity)
-{
-	rotationValue *= sensitivity;
-
-	Roll += rotationValue;
-
-	if (this->Roll > 360.0f || this->Roll < -360.0f)
-		this->Roll = 0.0f;
-
-	updateCameraVectors();
-}
-
-void Camera::cameraRotationY(float rotationValue, float sensitivity)
-{
-	rotationValue *= sensitivity;
-
-	Pitch += -rotationValue;
-
-	if (this->Pitch > 360.0f || this->Pitch < -360.0f)
-		this->Pitch = 0.0f;
-
-	updateCameraVectors();
 }
 
 DllExport glm::vec3 Camera::getCameraPositon()

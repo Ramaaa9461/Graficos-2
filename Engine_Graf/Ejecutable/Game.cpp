@@ -15,7 +15,8 @@ Game::~Game()
 
 void Game::Init()
 {
-	camera = new Camera();
+	firstPersonCamera = new FirstPersonCamera(10.0f);
+	thirdPersonCamera = new ThirdPersonCamera();
 
 	cube = new Cube(-5, 0, 0);
 	cube1 = new Cube(0, 0, 0);
@@ -31,70 +32,52 @@ void Game::Init()
 
 void Game::Input()
 {
+	//Movimiento cubo -> usa WASD.
+	/*
 	if (Input::getKeyPressed(GLFW_KEY_A) || Input::getKeyPressed(GLFW_KEY_A + 32))
 	{
-		camera->moveLeft();
+		cube1->addPosition(glm::vec3(1.0f, 0.0f, 0.0f));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_S) || Input::getKeyPressed(GLFW_KEY_S + 32))
 	{
-		camera->moveBack();
+		cube1->addPosition(glm::vec3(0.0f, -1.0f, 0.0f));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_D) || Input::getKeyPressed(GLFW_KEY_D + 32))
 	{
-		camera->moveRight();
+		cube1->addPosition(glm::vec3(1.0f, 0.0f, 0.0f));
 	}
 	else if (Input::getKeyPressed(GLFW_KEY_W) || Input::getKeyPressed(GLFW_KEY_W + 32))
 	{
-		camera->moveForward();
+		cube1->addPosition(glm::vec3(0.0f, 1.0f, 0.0f));
 	}
-	else if (Input::getKeyPressed(GLFW_KEY_X) || Input::getKeyPressed(GLFW_KEY_X + 32))
-	{
-		camera->moveUp();
-	}
-	else if (Input::getKeyPressed(GLFW_KEY_Z) || Input::getKeyPressed(GLFW_KEY_Z + 32))
-	{
-		camera->moveDown();
-	}
+	*/
 
 
-	if (Input::getKeyPressed(GLFW_KEY_Q) || Input::getKeyPressed(GLFW_KEY_Q + 32))
+	int ligthSpeed = 2;
+	if (Input::getKeyPressed(GLFW_KEY_KP_4))
 	{
-		camera->cameraRotationY(10.0f, 0.2f);
-			
+		ligth->addPosition(glm::vec3(-ligthSpeed, 0, 0) * Timer::getTimer()->timeBetweenFrames());
 	}
-	else if (Input::getKeyPressed(GLFW_KEY_E) || Input::getKeyPressed(GLFW_KEY_E + 32))
+	else if (Input::getKeyPressed(GLFW_KEY_KP_6))
 	{
-		camera->cameraRotationY(-10.0f, 0.2f);
+		ligth->addPosition(glm::vec3(ligthSpeed, 0, 0) * Timer::getTimer()->timeBetweenFrames());
 	}
-
-	radius += Input::getScrollInput() * Timer::getTimer()->timeBetweenFrames();
-	
-	if (radius < 8.0f)
+	else if (Input::getKeyPressed(GLFW_KEY_KP_5))
 	{
-		radius = 8.1f;
+		ligth->addPosition(glm::vec3(0, 0, ligthSpeed) * Timer::getTimer()->timeBetweenFrames());
 	}
-	else if (radius > 100.0f)
+	else if (Input::getKeyPressed(GLFW_KEY_KP_8))
 	{
-		radius = 99.9f;
-	}
-
-
-	if (Input::getKeyPressed(GLFW_KEY_LEFT))
-	{
-		ligth->addPosition(glm::vec3(-1, 0, 0));
-	}
-	else if (Input::getKeyPressed(GLFW_KEY_RIGHT))
-	{
-		ligth->addPosition(glm::vec3(1, 0, 0));
-	}
-	else if (Input::getKeyPressed(GLFW_KEY_DOWN))
-	{
-		ligth->addPosition(glm::vec3(0, 0, 1));
-	}
-	else if (Input::getKeyPressed(GLFW_KEY_UP))
-	{
-		ligth->addPosition(glm::vec3(0, 0, -1));
+		ligth->addPosition(glm::vec3(0, 0, -ligthSpeed) * Timer::getTimer()->timeBetweenFrames());
 	}	
+	else if (Input::getKeyPressed(GLFW_KEY_KP_7))
+	{
+		ligth->addPosition(glm::vec3(0, -ligthSpeed, 0) * Timer::getTimer()->timeBetweenFrames());
+	}
+	else if (Input::getKeyPressed(GLFW_KEY_KP_9))
+	{
+		ligth->addPosition(glm::vec3(0, ligthSpeed, 0) * Timer::getTimer()->timeBetweenFrames());
+	}
 }
 
 void Game::Update()
@@ -109,19 +92,19 @@ void Game::Update()
 
 		ligth->draw();
 	
-		cube->updateCameraPos(camera->getCameraPositon());
-		cube1->updateCameraPos(camera->getCameraPositon());
-		cube2->updateCameraPos(camera->getCameraPositon());
+		cube->updateCameraPos(firstPersonCamera->getCameraPositon());
+		cube1->updateCameraPos(firstPersonCamera->getCameraPositon());
+		cube2->updateCameraPos(firstPersonCamera->getCameraPositon());
 
 		cube->updateLigthPos(ligth->getPosition());
 		cube1->updateLigthPos(ligth->getPosition());
 		cube2->updateLigthPos(ligth->getPosition());
 		
-		
-		//camera->thirdPersonCamera(cube1->getPosition(), radius);
-		camera->firstPersonCamera();
-		
-		camera->followCursor(Input::getMousePosition() * Timer::getTimer()->timeBetweenFrames(), 0.08f, 0.1f);
+		firstPersonCamera->updateFirstPersonCamera();
+		firstPersonCamera->rotateFirstPersonCamera(false, 1.0f, 1.0f);
+
+		//thirdPersonCamera->updateThirdPersonCamera(cube1->getPosition());
+		//thirdPersonCamera->rotateThirdPersonCamera(false, 1.0f, 1.0f);
 	}
 	//------------------------------------
 
@@ -130,7 +113,9 @@ void Game::Update()
 
 void Game::DeInit()
 {
-	delete camera;
+	delete firstPersonCamera;
+	delete thirdPersonCamera;
+
 	delete cube;
 	delete cube1;
 	delete cube2;

@@ -10,6 +10,9 @@
 #include "CollisionManager.h"
 
 #include "Camera.h"
+#include "FirstPersonCamera.h"
+#include "ThirdPersonCamera.h"
+
 #include "Cube.h"
 
 #include <iostream>
@@ -19,8 +22,9 @@ class Game : public BaseGame
 
 private:
 
-	Camera* camera;
-	
+	FirstPersonCamera* firstPersonCamera;
+	ThirdPersonCamera* thirdPersonCamera;
+
 	Cube* cube;
 	Cube* cube1;
 	Cube* cube2;

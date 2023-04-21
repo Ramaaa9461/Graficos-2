@@ -166,6 +166,7 @@
     <ClCompile Include="Entity2d.cpp" />
     <ClCompile Include="BaseGame.cpp" />
     <ClCompile Include="Entity3d.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="ImGuiEngine.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ThirdPersonCamera.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
@@ -200,6 +202,7 @@
     <ClInclude Include="Entity2d.h" />
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="Entity3d.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="ImGuiEngine.h" />
     <ClInclude Include="Input.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ThirdPersonCamera.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexBufferLayout.h" />
