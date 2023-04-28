@@ -1,7 +1,7 @@
 #include "Cube.h"
 
 
-DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : Entity3d(initPositionX, initPositionY, initPositionZ)
+DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Shader* shader) : Entity3d(initPositionX, initPositionY, initPositionZ)
 {
 	setVertices();
 	setIndixs();
@@ -12,54 +12,26 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ) : 
 	vb = new VertexBuffer(positions, VERTEXPOSITIONSCOUNT * 6 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
 
 	layout = VertexBufferLayout();
-	layout.Push<float>(3);		
-	layout.Push<float>(3);		
+	layout.Push<float>(3);
+	layout.Push<float>(3);
 	va->AddBuffer(*vb, layout);
 	va->Bind();
 
 	ib = new IndexBuffer(indices, INDEXSCOUNT);
 
-	shaderType = ShaderType::noTexture;
-
-	shader = new Shader(shaderType);
-	shader->Bind();
-
-	shader->SetUniforms4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
-
-	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-	shader->SetUniforms4f("lightPos", -10.0f, 0.0f, 0.0f, 1.0f);
-
-	shader->SetUniforms4f("viewPos", 0.0f, 0.0f, 10.0f, 1.0f);
-	
-	shader->SetUniforms1f("ambientStrength", 0.2f);
-	shader->SetUniforms1f("specularStrength", 10.5f);
+	this->shader = shader;
 
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();
-	shader->Unbind();
 }
 
-DllExport void Cube::setColor(glm::vec4 RGBA)
-{
-	shader->Bind();
-	shader->SetUniforms4f("u_Color", RGBA.x, RGBA.y, RGBA.z, RGBA.w);
-	shader->Unbind();
-}
-
-void Cube::updateCameraPos(glm::vec3 cameraPos)
-{
-	shader->Bind();
-	shader->SetUniforms4f("viewPos", cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
-	shader->Unbind();
-}
-
-void Cube::updateLigthPos(glm::vec3 ligthPos)
-{
-	shader->Bind();
-	shader->SetUniforms4f("lightPos", ligthPos.x, ligthPos.y, ligthPos.z, 1.0f);
-	shader->Unbind();
-}
+//DllExport void Cube::setColor(glm::vec4 RGBA)
+//{
+//	shader->Bind();
+//	shader->SetUniforms4f("u_Color", RGBA.x, RGBA.y, RGBA.z, RGBA.w);
+//	shader->Unbind();
+//}
 
 DllExport void Cube::setVertices()
 {
@@ -74,13 +46,13 @@ DllExport void Cube::setVertices()
 		0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 1
 		0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 2
 	   -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // Vértice 3
-	
+
 	   // Cara trasera
 		0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 4
 	   -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 5
 	   -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 6
 		0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // Vértice 7
-	
+
 	   // Cara superior
 	   -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 8
 		0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // Vértice 9

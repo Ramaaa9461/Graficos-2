@@ -22,11 +22,6 @@ private:
 
 public:
 
-    DllExport Cube(int initPositionX, int initPositionY, int initPositionZ);
-
-    DllExport void setColor(glm::vec4 RGBA);
-    DllExport void updateCameraPos(glm::vec3 cameraPos);
-    DllExport void updateLigthPos(glm::vec3 ligthPos);
-
+    DllExport Cube(int initPositionX, int initPositionY, int initPositionZ, Shader* shader);
 };
 

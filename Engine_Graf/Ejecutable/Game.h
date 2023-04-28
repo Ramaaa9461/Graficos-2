@@ -22,20 +22,25 @@ class Game : public BaseGame
 
 private:
 
-	FirstPersonCamera* firstPersonCamera;
-	ThirdPersonCamera* thirdPersonCamera;
+	Camera* camera;
+
+	Shader* shader;
+	Shader* shader1;
+	Shader* shader2;
 
 	Cube* cube;
 	Cube* cube1;
 	Cube* cube2;
 	Cube* ligth;
 
-	float radius = 20.0f;
+	Shader* initShader(glm::vec3 color);
+	void updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPosition, glm::vec3 ligthPosition);
 
 public:
 
 	Game();
 	~Game();
+
 
 	void Init();
 	void Input();

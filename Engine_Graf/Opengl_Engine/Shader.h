@@ -88,7 +88,7 @@ private:
 		"\n"
 		"vec4 viewDir = normalize(viewPos - FragPos);					\n"
 		"vec4 reflectDir = reflect(-lightDir, norm);					\n"
-		"float spec = pow(max(dot(viewDir, reflectDir), 0.0), 256);		\n"
+		"float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);		\n"
 		"vec4 specular = specularStrength * spec * lightColor;			\n"
 		"\n"
 		"   vec4 result = (ambient + diffuseLight + specular) * u_Color;       \n"

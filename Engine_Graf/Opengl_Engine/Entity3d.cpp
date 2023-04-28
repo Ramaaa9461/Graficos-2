@@ -33,4 +33,7 @@ DllExport void Entity3d::draw()
 	shader->SetUniformsMat4f("model", TRS);
 
 	renderer->Draw(va, ib, shader);
+	
+	shader->Unbind();
+
 }
