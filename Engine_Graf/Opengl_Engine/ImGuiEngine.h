@@ -6,6 +6,7 @@
 #include "imgui/imgui_impl_glfw_gl3.h"
 
 #include "Entity2d.h"
+#include "Entity3d.h"
 
 class ImGuiEngine
 {
@@ -31,5 +32,6 @@ public:
 	DllExport void imGuiEndDraw();
 	
 	DllExport void imGuiDrawObject(Entity2d* entity2d, int index);
+	DllExport void imGuiDrawObject(Entity3d* entity3d, int index);
 };
 

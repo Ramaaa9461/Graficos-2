@@ -43,17 +43,36 @@ DllExport void ImGuiEngine::imGuiDrawObject(Entity2d* entity2d, int index)
 	rotation = entity2d->getRotation();
 	scale = entity2d->getScale();
 
-	if (ImGui::CollapsingHeader("Entity" + index))
+	if (ImGui::CollapsingHeader(("Entity" + std::to_string(index)).c_str()))
 	{
-		ImGui::DragFloat3("Translation" + index, &traslation.x, 0.0f, 960.0f);
-		ImGui::DragFloat("Rotation " + index, &rotation.z, 1.0f, 0.0f, 360.0f);
-		ImGui::DragFloat2("Scale " + index, &scale.x, 0.1f, 0.0f, 10.0f);
+		ImGui::DragFloat3(("Translation " + std::to_string(index)).c_str(), &traslation.x, 0.0f, 960.0f);
+		ImGui::DragFloat (("Rotation " + std::to_string(index)).c_str(), &rotation.z, 1.0f, 0.0f, 360.0f);
+		ImGui::DragFloat2(("Scale " + std::to_string(index)).c_str(), &scale.x, 0.1f, 0.0f, 10.0f);
 
 	}
 
 	entity2d->setPosition(traslation);
 	entity2d->setRotation(rotation);
 	entity2d->setScale(scale);
+}
+
+void ImGuiEngine::imGuiDrawObject(Entity3d* entity3d, int index)
+{
+	traslation = entity3d->getPosition();
+	rotation = entity3d->getRotation();
+	scale = entity3d->getScale();
+
+	if (ImGui::CollapsingHeader(("Entity " + std::to_string(index)).c_str()))
+	{
+		ImGui::DragFloat3(("Translation " + std::to_string(index)).c_str(), &traslation.x, 0.1f);
+		ImGui::DragFloat3(("Rotation " + std::to_string(index)).c_str(), &rotation.x, 1.0f);
+		ImGui::DragFloat3(("Scale " + std::to_string(index)).c_str(), &scale.x, 0.1f);
+
+	}
+
+	entity3d->setPosition(traslation);
+	entity3d->setRotation(rotation);
+	entity3d->setScale(scale);
 }
 
 
