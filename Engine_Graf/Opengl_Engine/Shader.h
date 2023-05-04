@@ -123,6 +123,7 @@ public:
 	DllExport void SetUniforms1f(const std::string name, float value);
 	DllExport void SetUniforms1i(const std::string name, int value);
 	DllExport void SetUniforms4f(const std::string name, float v0, float v1, float v2, float v3);
+	DllExport void SetUniforms3f(const std::string name, float v0, float v1, float v2);
 	DllExport void SetUniformsMat4f(const std::string name, const glm::mat4& matrix);
 
 private:

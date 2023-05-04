@@ -33,6 +33,8 @@ private:
 	Cube* cube2;
 	Cube* ligth;
 
+	//SpotLight spotlight;
+
 	Shader* initShader(glm::vec3 color);
 	void updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPosition, glm::vec3 ligthPosition);
 

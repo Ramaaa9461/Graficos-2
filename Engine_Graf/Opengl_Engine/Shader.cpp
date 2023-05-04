@@ -45,15 +45,16 @@ DllExport void Shader::SetUniforms4f(const std::string name, float v0, float v1,
 	GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
 }
 
+void Shader::SetUniforms3f(const std::string name, float v0, float v1, float v2)
+{
+	GLCall(glUniform3f(GetUniformLocation(name), v0, v1, v2));
+}
+
 DllExport void Shader::SetUniformsMat4f(const std::string name, const glm::mat4& matrix)
 {
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
-//void Shader::SetUniforms3f(const std::string name, float v0, float v1, float v2)
-//{
-//	GLCall(glUniform3f(GetUniformLocation(name), v0, v1, v2));
-//}
 
 DllExport void Shader::SetUniforms1f(const std::string name, float value)
 {

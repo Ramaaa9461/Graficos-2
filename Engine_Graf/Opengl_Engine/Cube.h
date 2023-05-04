@@ -23,5 +23,9 @@ private:
 public:
 
     DllExport Cube(int initPositionX, int initPositionY, int initPositionZ, Shader* shader);
+    
+    DllExport void setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess);
+
+
 };
 

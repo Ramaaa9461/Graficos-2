@@ -26,6 +26,11 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 	ib->UnBind();
 }
 
+void Cube::setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess)
+{
+	material = new Material(ambient, diffuse, specular, shininess);
+}
+
 //DllExport void Cube::setColor(glm::vec4 RGBA)
 //{
 //	shader->Bind();
