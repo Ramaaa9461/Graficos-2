@@ -10,13 +10,22 @@ Game::Game()
 Game::~Game()
 {
 
-}
+} 
 
 void Game::Init()
 {
 	shader =  initShader(glm::vec3(1.0f, 0.0f, 0.0f));
 	shader2 = initShader(glm::vec3(0.0f, 1.0f, 0.0f));
 	shader1 = initShader(glm::vec3(0.0f, 0.0f, 1.0f));
+
+	//Material ORO
+	material = new Material(glm::vec3(0.24725f, 0.1995f, 0.0745f), glm::vec3(0.75164f, 0.60648f, 0.22648f), glm::vec3(0.628281f, 0.555802f, 0.366065f), 0.4f);
+	
+	//Pearl
+	material1 = new Material(glm::vec3(0.25f, 0.20725f, 0.20725f), glm::vec3(1.0f, 0.829f, 0.829f), glm::vec3(0.296648f, 0.296648f, 0.296648f), 0.088f);
+	
+	//RED Rubben
+	material2 = new Material(glm::vec3(0.05f, 0.0f, 0.0f), glm::vec3(0.5f, 0.4f, 0.4f), glm::vec3(0.7f, 0.04f, 0.04f), 0.078125f);
 
 	camera = new FirstPersonCamera(10.0f);
 	//camera = new ThirdPersonCamera();
@@ -25,6 +34,10 @@ void Game::Init()
 	cube =  new Cube(-5, 0, 0, shader);
 	cube1 = new Cube(0, 0, 0, shader1);
 	cube2 = new Cube(5, 0, 0, shader2);
+
+	cube->setMaterial(material2);
+	cube1->setMaterial(material);
+	cube2->setMaterial(material1);
 
 	ligth = new Cube(0, 5, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
@@ -115,6 +128,7 @@ void Game::DeInit()
 	delete cube2;
 
 	delete ligth;
+	delete material;
 
 	delete shader;
 	delete shader1;
@@ -143,8 +157,8 @@ void Game::updateShader(Shader* shader, glm::vec3 color ,glm::vec3 cameraPositio
 
 	shader->SetUniforms4f("u_Color", color.x, color.y, color.z, 1.0f);
 	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-	shader->SetUniforms1f("ambientStrength", 0.2f);
-	shader->SetUniforms1f("specularStrength", 10.0f);
+	shader->SetUniforms1f("ambientStrength", 1.0f);
+	shader->SetUniforms1f("specularStrength", 1.0f);
 
 	shader->SetUniforms4f("viewPos", cameraPosition.x, cameraPosition.y, cameraPosition.z, 1.0f);
 	shader->SetUniforms4f("lightPos", ligthPosition.x, ligthPosition.y, ligthPosition.z, 1.0f);

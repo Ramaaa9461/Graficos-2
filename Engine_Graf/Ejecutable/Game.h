@@ -13,6 +13,8 @@
 #include "FirstPersonCamera.h"
 #include "ThirdPersonCamera.h"
 
+#include "Material.h"
+
 #include "Cube.h"
 
 #include <iostream>
@@ -27,6 +29,10 @@ private:
 	Shader* shader;
 	Shader* shader1;
 	Shader* shader2;
+
+	Material* material;
+	Material* material1;
+	Material* material2;
 
 	Cube* cube;
 	Cube* cube1;

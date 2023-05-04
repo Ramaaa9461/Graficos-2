@@ -37,9 +37,6 @@ DllExport void Entity3d::draw()
 	shader->SetUniformsMat4f("model", TRS);
 	material->SetUniforms(shader);
 
-	//shader->SetUniforms3f("material.ambient", material->getAmbientColor().x, material->getAmbientColor().y, material->getAmbientColor().z);
-
-
 	renderer->Draw(va, ib, shader);
 	
 	shader->Unbind();
