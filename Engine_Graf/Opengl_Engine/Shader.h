@@ -31,37 +31,17 @@ private:
 		"\n"
 		"layout(location = 1) in vec3 normal;"
 		"\n"
-		"out vec3 v_Normal;\n"
-		"out vec4 FragPos;\n"
-		"uniform mat4 u_MVP;\n"
-		"uniform mat4 model;\n"
+		"out vec3 v_Normal;					\n"
+		"out vec4 FragPos;					\n"
+		"uniform mat4 projection;			\n"
+		"uniform mat4 view;					\n"
+		"uniform mat4 model;				\n"
 		"void main()						\n"
 		"{\n"
 		"    FragPos = model * position;\n"
 		"    v_Normal = normal;\n"
-		"    gl_Position = u_MVP * position;\n"
+		"    gl_Position = projection * view * model * position;\n"
 		"};\n";
-
-	std::string fragmentShaderWithTexture =
-		//"#shader fragment							\n"
-		"#version 330 core\n"
-		"\n"
-		"	layout(location = 0) out vec4 color;"
-		"\n"
-		"	in vec2 v_TexCoord;"
-		"\n"
-		"	uniform vec4 u_Color;"
-		"\n"
-		"	uniform sampler2D u_Texture;"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	vec4 texColor = texture(u_Texture, v_TexCoord);"
-		"\n"
-		"	color = texColor;"
-		"};\n";
-
-
 
 	//std::string fragmentShaderNoTexture =
 	//	"#version 330 core\n"
@@ -150,6 +130,25 @@ private:
 		"float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance)); \n"
 		"   vec4 result = attenuation * ( vec4(ambient,1.0) + diffuseLight + specular);       \n"
 		"   color = result * u_Color;                                        \n"
+		"};\n";
+
+	std::string fragmentShaderWithTexture =
+		//"#shader fragment							\n"
+		"#version 330 core\n"
+		"\n"
+		"	layout(location = 0) out vec4 color;"
+		"\n"
+		"	in vec2 v_TexCoord;"
+		"\n"
+		"	uniform vec4 u_Color;"
+		"\n"
+		"	uniform sampler2D u_Texture;"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	vec4 texColor = texture(u_Texture, v_TexCoord);"
+		"\n"
+		"	color = texColor;"
 		"};\n";
 
 #pragma endregion

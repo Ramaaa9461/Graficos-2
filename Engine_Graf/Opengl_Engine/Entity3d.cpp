@@ -33,7 +33,8 @@ DllExport void Entity3d::draw()
 
 	shader->Bind();
 	
-	shader->SetUniformsMat4f("u_MVP", mvp);
+	shader->SetUniformsMat4f("projection", renderer->proj);
+	shader->SetUniformsMat4f("view", renderer->view);
 	shader->SetUniformsMat4f("model", TRS);
 	material->SetUniforms(shader);
 
