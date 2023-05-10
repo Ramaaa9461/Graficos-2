@@ -129,6 +129,8 @@ void Game::DeInit()
 
 	delete ligth;
 	delete material;
+	delete material1;
+	delete material2;
 
 	delete shader;
 	delete shader1;
@@ -156,12 +158,18 @@ void Game::updateShader(Shader* shader, glm::vec3 color ,glm::vec3 cameraPositio
 	shader->Bind();
 
 	shader->SetUniforms4f("u_Color", color.x, color.y, color.z, 1.0f);
-	shader->SetUniforms4f("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
-	shader->SetUniforms1f("ambientStrength", 1.0f);
-	shader->SetUniforms1f("specularStrength", 1.0f);
+
+	shader->SetUniforms3f("light.position", ligthPosition.x, ligthPosition.y, ligthPosition.z);
+	shader->SetUniforms4f("light.color", 1.0f, 1.0f, 1.0f, 1.0f);
+	shader->SetUniforms3f("light.ambient", 0.5f, 0.5f, 0.5f);
+	shader->SetUniforms3f("light.diffuse", 0.5f, 0.5f, 0.5f);
+	shader->SetUniforms3f("light.specular", 1.0f, 1.0f, 1.0f);
+
+	shader->SetUniforms1f("light.constant", 1.0f);
+	shader->SetUniforms1f("light.linear", 0.09f);
+	shader->SetUniforms1f("light.quadratic", 0.032f);
 
 	shader->SetUniforms4f("viewPos", cameraPosition.x, cameraPosition.y, cameraPosition.z, 1.0f);
-	shader->SetUniforms4f("lightPos", ligthPosition.x, ligthPosition.y, ligthPosition.z, 1.0f);
 
 	shader->Unbind();
 }
