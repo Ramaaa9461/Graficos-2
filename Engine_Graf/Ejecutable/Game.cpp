@@ -27,9 +27,16 @@ void Game::Init()
 	//RED Rubben
 	material2 = new Material(glm::vec3(0.05f, 0.0f, 0.0f), glm::vec3(0.5f, 0.4f, 0.4f), glm::vec3(0.7f, 0.04f, 0.04f), 0.078125f);
 
+	//Material para la luz
+	material3 = new Material(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1);
+
 	camera = new FirstPersonCamera(10.0f);
 	//camera = new ThirdPersonCamera();
 
+
+	background =  new Cube(0, 0, -20, shader);
+	background->setMaterial(material3);
+	background->setScale(glm::vec3(30, 30, 1));
 
 	cube =  new Cube(-5, 0, 0, shader);
 	cube1 = new Cube(0, 0, 0, shader1);
@@ -41,6 +48,8 @@ void Game::Init()
 
 	ligth = new Cube(0, 5, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+	ligth->setMaterial(material3);
 }
 
 void Game::Input()
@@ -101,6 +110,7 @@ void Game::Update()
 	{
 
 		ligth->draw();
+		background->draw();
 	
 		updateShader(shader,  glm::vec3(1.0f, 0.0f, 0.0f), camera->getCameraPositon(), ligth->getPosition());
 		 cube->draw();
@@ -127,10 +137,13 @@ void Game::DeInit()
 	delete cube1;
 	delete cube2;
 
+	delete background;
 	delete ligth;
+
 	delete material;
 	delete material1;
 	delete material2;
+	delete material3;
 
 	delete shader;
 	delete shader1;
@@ -157,8 +170,15 @@ void Game::updateShader(Shader* shader, glm::vec3 color ,glm::vec3 cameraPositio
 {
 	shader->Bind();
 
+	shader->SetUniforms3f("viewPos", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+
 	shader->SetUniforms3f("light.position", ligthPosition.x, ligthPosition.y, ligthPosition.z);
-	shader->SetUniforms3f("light.ambient", 0.5f, 0.5f, 0.5f);
+	shader->SetUniforms3f("light.direction", 0.0f, 0.0f, -1.0f);
+
+	shader->SetUniforms1f("light.cutOff", glm::cos(glm::radians(12.5f)));
+	shader->SetUniforms1f("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+
+	shader->SetUniforms3f("light.ambient", 0.2f, 0.2f, 0.2f);
 	shader->SetUniforms3f("light.diffuse", 0.5f, 0.5f, 0.5f);
 	shader->SetUniforms3f("light.specular", 1.0f, 1.0f, 1.0f);
 
@@ -166,7 +186,6 @@ void Game::updateShader(Shader* shader, glm::vec3 color ,glm::vec3 cameraPositio
 	shader->SetUniforms1f("light.linear", 0.09f);
 	shader->SetUniforms1f("light.quadratic", 0.032f);
 
-	shader->SetUniforms3f("viewPos", cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
 	shader->Unbind();
 }
