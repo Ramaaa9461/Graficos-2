@@ -17,7 +17,7 @@ class Shader
 {
 private:
 
-	//std::string m_FilepPath;
+	std::string m_FilepPath;
 	unsigned int m_RendererID;
 	std::unordered_map<std::string, int> m_UniformLocationCache;
 
@@ -181,6 +181,8 @@ private:
 	DllExport unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 	DllExport unsigned int CompileShader(unsigned int type, const std::string& source);
 	DllExport unsigned int GetUniformLocation(const std::string& name);
+	
+	DllExport std::string read_file(const std::string& filename);
 
 };
 
