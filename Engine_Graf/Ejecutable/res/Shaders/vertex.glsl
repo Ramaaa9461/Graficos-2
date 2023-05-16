@@ -12,7 +12,7 @@
 		
 		void main()						
 		{
-			  FragPos = vec3(model * vec4(position, 1.0));
-			  v_Normal = normal;
+			FragPos = vec3(model * vec4(position, 1.0));
+			v_Normal = normal;
 		    gl_Position = projection * view * model * vec4(position,1.0);
 		};

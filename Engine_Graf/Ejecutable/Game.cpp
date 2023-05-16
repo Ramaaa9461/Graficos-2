@@ -33,11 +33,6 @@ void Game::Init()
 	camera = new FirstPersonCamera(10.0f);
 	//camera = new ThirdPersonCamera();
 
-
-	background =  new Cube(0, 0, -20, shader);
-	background->setMaterial(material3);
-	background->setScale(glm::vec3(30, 30, 1));
-
 	cube =  new Cube(-5, 0, 0, shader);
 	cube1 = new Cube(0, 0, 0, shader1);
 	cube2 = new Cube(5, 0, 0, shader2);
@@ -110,7 +105,6 @@ void Game::Update()
 	{
 
 		ligth->draw();
-		background->draw();
 	
 		updateShader(shader,  glm::vec3(1.0f, 0.0f, 0.0f), camera->getCameraPositon(), ligth->getPosition());
 		 cube->draw();
@@ -137,7 +131,6 @@ void Game::DeInit()
 	delete cube1;
 	delete cube2;
 
-	delete background;
 	delete ligth;
 
 	delete material;

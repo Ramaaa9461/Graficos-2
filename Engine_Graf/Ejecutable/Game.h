@@ -35,7 +35,6 @@ private:
 	Material* material2;
 	Material* material3;
 
-	Cube* background;
 	Cube* cube;
 	Cube* cube1;
 	Cube* cube2;
