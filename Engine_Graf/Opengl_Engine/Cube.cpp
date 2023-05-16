@@ -8,7 +8,6 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 	calculateVertices();
 
 	va = new VertexArray();
-	//vb = new VertexBuffer(positions, 4 * 4 * sizeof(float)); Como se hace en el RectangleShape
 	vb = new VertexBuffer(positions, VERTEXPOSITIONSCOUNT * 6 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
 
 	layout = VertexBufferLayout();
@@ -24,6 +23,16 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();
+}
+
+void Cube::setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess)
+{
+	material = new Material(ambient, diffuse, specular, shininess);
+}
+
+void Cube::setMaterial(Material* material)
+{
+	this->material = material;
 }
 
 //DllExport void Cube::setColor(glm::vec4 RGBA)

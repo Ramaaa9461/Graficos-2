@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "ShaderType.h"
+#include "Material.h"
 
 class Entity3d : public Entity
 {
@@ -20,6 +21,9 @@ protected:
 	IndexBuffer* ib;
 	Shader* shader;
 	Texture* texture;
+
+	Material* material;
+	
 
 	ShaderType shaderType;
 

@@ -43,6 +43,7 @@ DllExport void BaseGame::run()
 
 	delete renderer;
 
+	delete timer;
 	//return 0;
 }
 

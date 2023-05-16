@@ -10,18 +10,11 @@
 DllExport Shader::Shader(ShaderType shaderType)
 {
 	m_RendererID = 0;
-	ShaderProgramSource source;// = ParseShader("filepath");
-	source.VertexSource = vertexShader;
-
-	if (shaderType == ShaderType::whithTexture)
-	{
-		source.FragmentSource = fragmentShaderWithTexture;
-	}
-	else if (shaderType == ShaderType::noTexture)
-	{
-		source.FragmentSource = fragmentShaderNoTexture;
-	}
-
+	ShaderProgramSource source;
+	
+	source.VertexSource = read_file("res/Shaders/vertex.glsl");
+	source.FragmentSource = read_file("res/Shaders/fragment.glsl");
+	
 	m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
@@ -45,15 +38,16 @@ DllExport void Shader::SetUniforms4f(const std::string name, float v0, float v1,
 	GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
 }
 
+void Shader::SetUniforms3f(const std::string name, float v0, float v1, float v2)
+{
+	GLCall(glUniform3f(GetUniformLocation(name), v0, v1, v2));
+}
+
 DllExport void Shader::SetUniformsMat4f(const std::string name, const glm::mat4& matrix)
 {
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
-//void Shader::SetUniforms3f(const std::string name, float v0, float v1, float v2)
-//{
-//	GLCall(glUniform3f(GetUniformLocation(name), v0, v1, v2));
-//}
 
 DllExport void Shader::SetUniforms1f(const std::string name, float value)
 {
@@ -81,49 +75,16 @@ DllExport unsigned int Shader::GetUniformLocation(const std::string& name)
 	return location;
 }
 
-
-
-/*ShaderProgramSource Shader::ParseShader(const std::string& filepath)
+std::string Shader::read_file(const std::string& filename)
 {
-	std::ifstream stream(filepath);
-
-	enum class ShaderType
+	std::ifstream file(filename);
+	if (!file.is_open()) 
 	{
-		NONE = -1, VERTEX = 0, FRAGMENT = 1
-	};
-
-	const int bufferSize = 1024;
-	char charLine[bufferSize];
-
-	std::string line;
-	std::stringstream ss[2];
-	ShaderType type = ShaderType::NONE;
-
-	while (!stream.eof())
-	{
-		stream.getline(charLine, 1024);
-		line += (std::string)charLine;
-
-		if (line.find("#shader") != std::string::npos)
-		{
-			if (line.find("vertex") != std::string::npos)
-			{
-				type = ShaderType::VERTEX;
-			}
-			else if (line.find("fragment") != std::string::npos)
-			{
-				type = ShaderType::FRAGMENT;
-			}
-		}
-		else
-		{
-			ss[(int)type] << line << '\n';
-		}
+		throw std::runtime_error("Failed to open file: " + filename);
 	}
-
-	return { ss[0].str(), ss[1].str() };
-
-}*/
+	std::string content((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+	return content;
+}
 
 
 DllExport unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
