@@ -111,16 +111,16 @@
 		
 		void main()
 		{
-			vec3 norm = normalize(Normal);
-			vec3 viewDir = normalize(viewPosition - FragPos);
+			vec3 norm = normalize(v_Normal);
+			vec3 viewDir = normalize(viewPos - FragPos);
 
 			vec3 result;
 
 			for (int i = 0; i < 10; i++) 
 			{
 				result += CalculateDirectionalLight(directionalLights[i], norm, viewDir);
-			    result += CalculatePointLight(pointLights[i], norm, FragPos, viewDir);
-			    result += CalculateSpotLight(spotLights[i], norm, FragPos, viewDir);
+				result += CalculatePointLight(pointLights[i], norm, FragPos, viewDir);
+				result += CalculateSpotLight(spotLights[i], norm, FragPos, viewDir);
 			}
 
 			FragColor = vec4(result, 1.0);                                  
