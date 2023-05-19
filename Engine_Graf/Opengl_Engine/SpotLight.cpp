@@ -1,21 +1,23 @@
 #include "SpotLight.h"
 
+#include "ImGuiEngine.h"
+
 
 int SpotLight::s_spotLightCount = 0; // Inicializamos el contador de luces puntuales en 0
 
 SpotLight::SpotLight()
 	: m_index(s_spotLightCount++),
-	position(glm::vec3(0.0f)),
+ 	position(glm::vec3(0.0f, 5.0f, 0.0f)),
 	direction(glm::vec3(0.0f, -1.0f, 0.0f)),
-	color(glm::vec3(1.0f)),
-	ambient(glm::vec3(0.1f)),
-	diffuse(glm::vec3(1.0f)),
-	specular(glm::vec3(1.0f)),
-	constant(1.0f),
-	linear(0.09f),
+	    color(glm::vec3(1.0f)),
+	  ambient(glm::vec3(0.2f)),
+	  diffuse(glm::vec3(0.5f)),
+	 specular(glm::vec3(0.8f)),
+	 constant(1.0f  ),
+	   linear(0.09f ),
 	quadratic(0.032f),
-	cutoff(0.0f),
-	outerCutoff(0.0f)
+	cutoff(glm::cos(glm::radians(45.0f))),
+	outerCutoff(glm::cos(glm::radians(70.0f)))
 {
 }
 
@@ -88,9 +90,37 @@ void SpotLight::setOuterCutoff(float outerCutoff)
 	this->outerCutoff = outerCutoff;
 }
 
+glm::vec3 SpotLight::getPosition()
+{
+	return position;
+}
+
+glm::vec3 SpotLight::getDirection()
+{
+	return direction;
+}
+
+glm::vec3 SpotLight::getColor()
+{
+	return color;
+}
+
+float SpotLight::getCutoff()
+{
+	return cutoff;
+}
+
+float SpotLight::getOuterCutoff()
+{
+	return outerCutoff;
+}
+
 void SpotLight::setUniforms(Shader* shader)
 {
 	shader->Bind();
+
+	///shader->SetUniforms1i("numDirectionalLights", 0);
+	shader->SetUniforms1i("numSpotLights", s_spotLightCount);
 
 	shader->SetUniforms3f("spotLights[" + std::to_string(m_index) + "].position", position.x, position.y, position.z);
 	shader->SetUniforms3f("spotLights[" + std::to_string(m_index) + "].direction", direction.x, direction.y, direction.z);
@@ -106,4 +136,6 @@ void SpotLight::setUniforms(Shader* shader)
 	shader->SetUniforms1f("spotLights[" + std::to_string(m_index) + "].outerCutoff", outerCutoff);
 
 	shader->Unbind();
+
+	ImGuiEngine::getImGuiEngine()->imGuiDrawSpotLight(this, m_index);
 }

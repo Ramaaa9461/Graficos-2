@@ -8,6 +8,10 @@
 #include "Entity2d.h"
 #include "Entity3d.h"
 
+#include "SpotLight.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+
 class ImGuiEngine
 {
 private:
@@ -21,7 +25,6 @@ private:
 	static ImGuiEngine* S_ImGuiEngine;
 	DllExport ImGuiEngine();
 
-
 public:
 
 	DllExport static ImGuiEngine* getImGuiEngine();
@@ -33,5 +36,9 @@ public:
 	
 	DllExport void imGuiDrawObject(Entity2d* entity2d, int index);
 	DllExport void imGuiDrawObject(Entity3d* entity3d, int index);
+
+	DllExport void imGuiDrawSpotLight(SpotLight* spotLight, int index);
+	DllExport void imGuiDrawDirectionalLight(DirectionalLight* directionalLight, int index);
+	DllExport void imGuiDrawPointLight(PointLight* pointLight, int index);
 };
 

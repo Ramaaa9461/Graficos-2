@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Lights.h"
 #include "Shader.h"
-
 #include "Cube.h"
 
-class SpotLight
+class SpotLight : public Lights
 {
 
 private:
@@ -36,6 +36,7 @@ public:
     DllExport void setPosition(const glm::vec3& position);
     DllExport void setDirection(const glm::vec3& direction);
     DllExport void setColor(const glm::vec3& color);
+
     DllExport void setAmbient(const glm::vec3& ambient);
     DllExport void setDiffuse(const glm::vec3& diffuse);
     DllExport void setSpecular(const glm::vec3& specular);
@@ -43,6 +44,13 @@ public:
     DllExport void setCutoff(float cutoff);
     DllExport void setOuterCutoff(float outerCutoff);
   
-    DllExport void setUniforms(Shader* shader);
+    DllExport glm::vec3 getPosition();
+    DllExport glm::vec3 getDirection();
+    DllExport glm::vec3 getColor();
+    DllExport float getCutoff();
+    DllExport float getOuterCutoff();
+
+
+    DllExport void setUniforms(Shader* shader) override;
 };
 

@@ -14,7 +14,11 @@
 #include "ThirdPersonCamera.h"
 
 #include "Material.h"
+
 #include "SpotLight.h"
+#include "PointLight.h"
+#include "DirectionalLight.h"
+
 #include "Cube.h"
 
 #include <iostream>
@@ -36,6 +40,13 @@ private:
 	Material* material3;
 
 	SpotLight* spotLight;
+	SpotLight* spotLight2;
+
+	DirectionalLight* directionalLight;
+	DirectionalLight* directionalLight2;
+
+	PointLight* pointLight;
+	PointLight* pointLight2;
 
 	Cube* cube;
 	Cube* cube1;
@@ -45,7 +56,6 @@ private:
 	//SpotLight spotlight;
 
 	Shader* initShader(glm::vec3 color);
-	void updateSpotLightValues(SpotLight* spotLight, Cube* lightObject, glm::vec3 color);
 	void updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPosition, glm::vec3 ligthPosition);
 
 

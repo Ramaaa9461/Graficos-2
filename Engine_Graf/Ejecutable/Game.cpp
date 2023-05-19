@@ -47,6 +47,13 @@ void Game::Init()
 	ligth->setMaterial(material3);
 
 	spotLight = new SpotLight();
+	spotLight2 = new SpotLight();
+
+	pointLight = new PointLight();
+	pointLight2 = new PointLight();
+
+	directionalLight = new DirectionalLight();
+	directionalLight2 = new DirectionalLight();
 }
 
 void Game::Input()
@@ -105,8 +112,8 @@ void Game::Update()
 
 	//Render here----------------------------
 	{
-		updateSpotLightValues(spotLight, ligth, glm::vec3(1.0f, 1.0f, 1.0f));
-
+		spotLight->setPosition(ligth->getPosition());
+		ligth->setPosition(spotLight->getPosition());
 
 		ligth->draw();
 
@@ -139,6 +146,16 @@ void Game::DeInit()
 
 	delete ligth;
 
+	delete spotLight;
+	delete spotLight2;
+
+	delete pointLight;
+	delete pointLight2;
+
+	delete directionalLight;
+	delete directionalLight2;
+
+
 	delete material;
 	delete material1;
 	delete material2;
@@ -156,19 +173,6 @@ Shader* Game::initShader(glm::vec3 color)
 	return shader;
 }
 
-void Game::updateSpotLightValues(SpotLight* spotLight, Cube* lightObject, glm::vec3 color)
-{
-	spotLight->setPosition(lightObject->getPosition());
-	spotLight->setDirection(glm::vec3(0.0f, 0.0f, -1.0f));
-	spotLight->setColor(color);
-	spotLight->setAmbient(glm::vec3(1.0f, 1.0f, 1.0f)); //0.2
-	spotLight->setDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-	spotLight->setSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-	spotLight->setAttenuation(1.0f, 0.09f, 0.032f);
-	spotLight->setCutoff(glm::cos(glm::radians(45.0f)));
-	spotLight->setOuterCutoff(glm::cos(glm::radians(70.0f)));
-}
-
 void Game::updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPosition, glm::vec3 ligthPosition)
 {
 	shader->Bind();
@@ -178,5 +182,11 @@ void Game::updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPositio
 	shader->Unbind();
 
 	spotLight->setUniforms(shader);
+	spotLight2->setUniforms(shader);
 
+	pointLight->setUniforms(shader);
+	pointLight2->setUniforms(shader);
+
+	directionalLight->setUniforms(shader);
+	directionalLight2->setUniforms(shader);
 }
