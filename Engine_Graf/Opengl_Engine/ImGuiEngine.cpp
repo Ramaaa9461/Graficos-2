@@ -75,51 +75,62 @@ void ImGuiEngine::imGuiDrawObject(Entity3d* entity3d, int index)
 	entity3d->setScale(scale);
 }
 
+void ImGuiEngine::imGuiDrawDirectionalLight(DirectionalLight* directionalLight, int index)
+{
+	glm::vec3 direction = directionalLight->getDirection();
+	glm::vec3 color = directionalLight->getColor();
 
-//void ImGuiEngine::imGuiDrawObject(Shape* shape[], int size)
-//{
-//	char result[100];
-//
-//	int a = 0;
-//
-//	const char* t_name = "Translation\0";
-//	const char* r_name = "Rotation\0";
-//	const char* s_name = "Scale\0";	
-//	
-//	char c_number;
-//
-//	const char* cc_number;	
-//
-//	for (int i = 0; i < size; i++)
-//	{	
-//		c_number = static_cast<char>(i);
-//
-//		//cc_number = &c_number;
-//
-//		traslation = shape[i]->getPosition();
-//		rotation = shape[i]->getRotation();
-//		scale = shape[i]->getScale();
-//		
-//
-//		{
-//			strcpy_s(result, t_name);
-//			//strcat_s(result, &c_number);
-//
-//			ImGui::SliderFloat3(result, &traslation.x, 0.0f, 960.0f);
-//			
-//			strcpy_s(result, r_name);
-//			//strcat_s(result, &c_number);
-//
-//			ImGui::SliderFloat3(result, &rotation.x, 0.0f, 360.0f);
-//			
-//			strcpy_s(result, s_name);
-//			//strcat_s(result, &c_number);
-//
-//			ImGui::SliderFloat3(result, &scale.x, 0.0f, 10.0f);
-//		}
-//
-//		shape[i]->setPosition(traslation);
-//		shape[i]->setRotation(rotation);
-//		shape[i]->setScale(scale);
-//	}
-//}
+	if (ImGui::CollapsingHeader(("Directional Light " + std::to_string(index)).c_str()))
+	{
+		ImGui::DragFloat3(("Direction " + std::to_string(index)).c_str(), &direction.x, 0.01f, -1.0f, 1.0f);
+		ImGui::ColorPicker3(("Color " + std::to_string(index)).c_str(), &color.x, 0.1f);
+	}
+
+	directionalLight->setDirection(direction);
+	directionalLight->setColor(color);
+}
+
+void ImGuiEngine::imGuiDrawPointLight(PointLight* pointLight, int index)
+{
+	glm::vec3 position = pointLight->getPosition();
+	glm::vec3 color = pointLight->getColor();
+
+	if (ImGui::CollapsingHeader(("Point Light " + std::to_string(index)).c_str()))
+	{
+		ImGui::DragFloat3(("Position " + std::to_string(index)).c_str(), &position.x, 0.1f);
+		ImGui::ColorPicker3(("Color " + std::to_string(index)).c_str(), &color.x, 0.1f);
+	}
+
+	pointLight->setPosition(position);
+	pointLight->setColor(color);
+}
+
+
+void ImGuiEngine::imGuiDrawSpotLight(SpotLight* spotLight, int index)
+{
+	glm::vec3 position = spotLight->getPosition();
+	glm::vec3 direction = spotLight->getDirection();
+	glm::vec3 color = spotLight->getColor();
+
+	float cutoff = spotLight->getCutoff(); 
+	float outerCutoff = spotLight->getOuterCutoff();
+
+
+	if (ImGui::CollapsingHeader(("Spot Light " + std::to_string(index)).c_str()))
+	{
+		ImGui::DragFloat3(("Position " + std::to_string(index)).c_str(), &position.x, 0.1f);
+		ImGui::DragFloat3(("Direction " + std::to_string(index)).c_str(), &direction.x, 0.01f, -1.0f, 1.0f);
+		ImGui::ColorPicker3(("Color " + std::to_string(index)).c_str(), &color.x, 0.1f);
+		
+		ImGui::DragFloat(("Cut Off " + std::to_string(index)).c_str(), &cutoff);
+		ImGui::DragFloat(("Outer Cut Off " + std::to_string(index)).c_str(), &outerCutoff);
+	}
+
+	spotLight->setPosition(position);
+	spotLight->setDirection(direction);
+	spotLight->setColor(color);
+	spotLight->setCutoff(cutoff);
+	spotLight->setOuterCutoff(outerCutoff);
+}
+
+

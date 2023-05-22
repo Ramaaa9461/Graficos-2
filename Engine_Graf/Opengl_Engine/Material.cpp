@@ -4,8 +4,8 @@
 
 
 Material::Material() :
-    ambientColor(glm::vec3(0.1f, 0.1f, 0.1f)),
-    diffuseColor(glm::vec3(0.5f, 0.5f, 0.5f)),
+    ambientColor(glm::vec3(1.0f, 1.0f, 1.0f)),
+    diffuseColor(glm::vec3(1.0f, 1.0f, 1.0f)),
     specularColor(glm::vec3(1.0f, 1.0f, 1.0f)),
     shininess(32.0f)
 {

@@ -95,13 +95,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor;$(SolutionDir)Dependencies\assimpTest\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;$(SolutionDir)Dependencies\assimpTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc140-mt.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,13 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor;$(SolutionDir)Dependencies\assimpTest\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;$(SolutionDir)Dependencies\assimpTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc140-mt.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,15 +127,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor;$(SolutionDir)Dependencies\assimpTest\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;$(SolutionDir)Dependencies\assimpTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc140-mt.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,15 +146,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(ProjectDir)src\vendor;$(SolutionDir)Dependencies\assimpTest\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\Lib;$(SolutionDir)Dependencies\GLEW\Lib;$(SolutionDir)Dependencies\assimpTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc140-mt.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,6 +162,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Entity2d.cpp" />
     <ClCompile Include="BaseGame.cpp" />
@@ -170,9 +171,12 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="ImGuiEngine.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Lights.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RectangleShape.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -199,6 +203,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DDLExport.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Entity2d.h" />
     <ClInclude Include="BaseGame.h" />
@@ -207,9 +212,12 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="ImGuiEngine.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Lights.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Renderer.h" />

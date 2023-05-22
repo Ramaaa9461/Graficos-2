@@ -1,6 +1,5 @@
 #include "Cube.h"
 
-
 DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Shader* shader) : Entity3d(initPositionX, initPositionY, initPositionZ)
 {
 	setVertices();
