@@ -14,9 +14,7 @@ Game::~Game()
 
 void Game::Init()
 {
-	shader = initShader(glm::vec3(1.0f, 0.0f, 0.0f));
-	shader2 = initShader(glm::vec3(0.0f, 1.0f, 0.0f));
-	shader1 = initShader(glm::vec3(0.0f, 0.0f, 1.0f));
+	shader = initShader();
 
 	//Material ORO
 	material = new Material(glm::vec3(0.24725f, 0.1995f, 0.0745f), glm::vec3(0.75164f, 0.60648f, 0.22648f), glm::vec3(0.628281f, 0.555802f, 0.366065f), 0.4f);
@@ -26,9 +24,6 @@ void Game::Init()
 
 	//RED Rubben
 	material2 = new Material(glm::vec3(0.05f, 0.0f, 0.0f), glm::vec3(0.5f, 0.4f, 0.4f), glm::vec3(0.7f, 0.04f, 0.04f), 0.078125f);
-
-	//Material para la luz
-	material3 = new Material(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1);
 
 	camera = new FirstPersonCamera(10.0f);
 	//camera = new ThirdPersonCamera();
@@ -43,8 +38,6 @@ void Game::Init()
 
 	ligth = new Cube(0, 2, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
-
-	ligth->setMaterial(material3);
 
 	spotLight = new SpotLight();
 	spotLight2 = new SpotLight();
@@ -122,14 +115,8 @@ void Game::Update()
 		cube2->draw();
 		updateShader(shader, glm::vec3(1.0f, 0.0f, 0.0f), camera->getCameraPositon(), ligth->getPosition());
 
-
-		//updateShader(shader1, glm::vec3(0.0f, 1.0f, 0.0f), camera->getCameraPositon(), ligth->getPosition());
-		//updateShader(shader2, glm::vec3(0.0f, 0.0f, 1.0f), camera->getCameraPositon(), ligth->getPosition());
-
-
 		((FirstPersonCamera*)camera)->updateFirstPersonCamera();
 		((FirstPersonCamera*)camera)->rotateFirstPersonCamera(false, 1.0f, 1.0f);
-
 
 		//((ThirdPersonCamera*)camera)->updateThirdPersonCamera(cube1->getPosition());
 		//((ThirdPersonCamera*)camera)->rotateThirdPersonCamera(false, 1.0f, 1.0f);
@@ -159,14 +146,11 @@ void Game::DeInit()
 	delete material;
 	delete material1;
 	delete material2;
-	delete material3;
 
 	delete shader;
-	delete shader1;
-	delete shader2;
 }
 
-Shader* Game::initShader(glm::vec3 color)
+Shader* Game::initShader()
 {
 	shader = new Shader(ShaderType::noTexture);
 
@@ -187,6 +171,6 @@ void Game::updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPositio
 	pointLight->setUniforms(shader);
 	pointLight2->setUniforms(shader);
 
-	directionalLight->setUniforms(shader);
-	directionalLight2->setUniforms(shader);
+	//directionalLight->setUniforms(shader);
+	//directionalLight2->setUniforms(shader);
 }

@@ -1,11 +1,5 @@
 #include "Cube.h"
 
-#include "assimp/material.h"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-
-
-
 DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Shader* shader) : Entity3d(initPositionX, initPositionY, initPositionZ)
 {
 	setVertices();
@@ -28,8 +22,6 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();
-
-	Assimp::Intern::AllocateFromAssimpHeap();
 }
 
 void Cube::setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess)
