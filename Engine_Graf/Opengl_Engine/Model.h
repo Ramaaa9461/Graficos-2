@@ -31,6 +31,7 @@ private:
 
 	std::string directory;
 	Vertex* vertices;
+
 	unsigned int* indices;
 	unsigned int numVertices;
 	unsigned int numIndices;

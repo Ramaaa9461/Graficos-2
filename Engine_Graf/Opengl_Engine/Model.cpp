@@ -12,9 +12,9 @@ void Model::draw()
 
 void Model::loadModel(const std::string& filePath) 
 {
-	Assimp::Importer* importer{};
+	Assimp::Importer importer;
 
-	const aiScene* scene = importer->ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		// Error handling if the model loading fails

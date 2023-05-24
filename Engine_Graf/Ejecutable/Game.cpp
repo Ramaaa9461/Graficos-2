@@ -171,6 +171,6 @@ void Game::updateShader(Shader* shader, glm::vec3 color, glm::vec3 cameraPositio
 	pointLight->setUniforms(shader);
 	pointLight2->setUniforms(shader);
 
-	//directionalLight->setUniforms(shader);
+	directionalLight->setUniforms(shader);
 	//directionalLight2->setUniforms(shader);
 }
