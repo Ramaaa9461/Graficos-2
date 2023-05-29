@@ -27,9 +27,6 @@ protected:
 
 	ShaderType shaderType;
 
-	glm::vec3 vertices[8];
-
-
 	DllExport virtual void  setVertices() = 0;
 	DllExport virtual void  setIndixs() = 0;
 
@@ -38,11 +35,6 @@ public:
 	DllExport  Entity3d(int initPositionX, int initPositionY, int initPositionZ);
 	DllExport ~Entity3d();
 
-	DllExport glm::vec3* getVertices();
-
 	DllExport void draw();
-	DllExport virtual void calculateVertices() = 0;
-
-
 };
 

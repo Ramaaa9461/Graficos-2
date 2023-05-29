@@ -19,12 +19,6 @@ DllExport Entity3d::~Entity3d()
 	delete material;
 }
 
-DllExport glm::vec3* Entity3d::getVertices()
-{
-	return vertices;
-}
-
-static int i = 0;
 DllExport void Entity3d::draw()
 {
 	ImGuiEngine::getImGuiEngine()->imGuiDrawObject(this, id);

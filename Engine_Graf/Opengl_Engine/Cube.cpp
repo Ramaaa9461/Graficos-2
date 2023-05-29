@@ -4,7 +4,6 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 {
 	setVertices();
 	setIndixs();
-	calculateVertices();
 
 	va = new VertexArray();
 	vb = new VertexBuffer(positions, VERTEXPOSITIONSCOUNT * 6 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
@@ -33,13 +32,6 @@ void Cube::setMaterial(Material* material)
 {
 	this->material = material;
 }
-
-//DllExport void Cube::setColor(glm::vec4 RGBA)
-//{
-//	shader->Bind();
-//	shader->SetUniforms4f("u_Color", RGBA.x, RGBA.y, RGBA.z, RGBA.w);
-//	shader->Unbind();
-//}
 
 DllExport void Cube::setVertices()
 {
@@ -128,25 +120,7 @@ DllExport void Cube::setIndixs()
 	{
 		indices[i] = indexs[i];
 	}
-}
 
-DllExport void Cube::calculateVertices()
-{
-	float halfWidth = 0.5f * getScaleX() * width;
-	float halfHeight = 0.5f * getScaleY() * height;
-	float halfDepth = 0.5f * getScaleZ() * depth;
-
-	// Front face
-	vertices[0] = getPosition() + glm::vec3(-halfWidth, -halfHeight, halfDepth);
-	vertices[1] = getPosition() + glm::vec3(halfWidth, -halfHeight, halfDepth);
-	vertices[2] = getPosition() + glm::vec3(halfWidth, halfHeight, halfDepth);
-	vertices[3] = getPosition() + glm::vec3(-halfWidth, halfHeight, halfDepth);
-
-	// Back face
-	vertices[4] = getPosition() + glm::vec3(halfWidth, -halfHeight, -halfDepth);
-	vertices[5] = getPosition() + glm::vec3(-halfWidth, -halfHeight, -halfDepth);
-	vertices[6] = getPosition() + glm::vec3(-halfWidth, halfHeight, -halfDepth);
-	vertices[7] = getPosition() + glm::vec3(halfWidth, halfHeight, -halfDepth);
 }
 
 

@@ -18,7 +18,6 @@ private:
 
     DllExport void  setVertices();
     DllExport void  setIndixs();
-    DllExport void calculateVertices();
 
 public:
 
