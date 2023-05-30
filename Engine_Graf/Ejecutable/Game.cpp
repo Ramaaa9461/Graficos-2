@@ -39,6 +39,8 @@ void Game::Init()
 	ligth = new Cube(0, 2, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
+	model = new Model("res/models/Container.fbx", 0.0f, 0.0f, 4.0f, shader);
+
 	spotLight = new SpotLight();
 	spotLight2 = new SpotLight();
 
@@ -110,6 +112,8 @@ void Game::Update()
 
 		ligth->draw();
 
+		model->draw();
+
 		cube->draw();
 		cube1->draw();
 		cube2->draw();
@@ -126,6 +130,8 @@ void Game::Update()
 void Game::DeInit()
 {
 	delete camera;
+
+	delete model;
 
 	delete cube;
 	delete cube1;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DDLExport.h"
+#include "Entity3d.h"
 
 #include <string>
 
@@ -10,12 +11,11 @@
 
 #include <assimp/mesh.h>
 
-class Model
+class Model : public Entity3d
 {
 
 public:
-	DllExport Model(const std::string& filePath);
-	DllExport void draw();
+	DllExport Model(const std::string& filePath, int initPositionX, int initPositionY, int initPositionZ, Shader* shader);
 
 private:
 
@@ -23,20 +23,15 @@ private:
 	DllExport void processNode(aiNode* node, const aiScene* scene);
 	DllExport void processMesh(aiMesh* mesh, const aiScene* scene);
 
-private:
-	struct Vertex {
-		float position[3];
-		float normal[3];
-	};
-
 	std::string directory;
-	Vertex* vertices;
+	float* vertices;
 
 	unsigned int* indices;
 	unsigned int numVertices;
 	unsigned int numIndices;
 
-	// Define any additional member variables and helper functions you may need
+	DllExport void  setVertices() override;
+	DllExport void  setIndixs()   override; 
 };
 
 

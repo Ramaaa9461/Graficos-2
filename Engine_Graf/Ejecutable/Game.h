@@ -20,6 +20,7 @@
 #include "DirectionalLight.h"
 
 #include "Cube.h"
+#include "Model.h"
 
 #include <iostream>
 
@@ -44,6 +45,8 @@ private:
 
 	PointLight* pointLight;
 	PointLight* pointLight2;
+
+	Model* model;
 
 	Cube* cube;
 	Cube* cube1;
