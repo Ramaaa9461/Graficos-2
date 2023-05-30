@@ -26,7 +26,10 @@ DllExport void Entity3d::draw()
 	glm::mat4 mvp = renderer->proj * renderer->view * TRS;
 
 	shader->Bind();
-	texture->Bind();
+	if (texture != NULL)
+	{
+		texture->Bind();
+	}
 
 	shader->SetUniformsMat4f("projection", renderer->proj);
 	shader->SetUniformsMat4f("view", renderer->view);
@@ -34,7 +37,11 @@ DllExport void Entity3d::draw()
 	material->SetUniforms(shader);
 
 	renderer->Draw(va, ib, shader);
-	
+
 	shader->Unbind();
-	texture->UnBind();
+
+	if (texture != NULL)
+	{
+		texture->UnBind();
+	}
 }

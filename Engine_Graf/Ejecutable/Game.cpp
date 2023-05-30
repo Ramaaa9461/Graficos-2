@@ -39,8 +39,8 @@ void Game::Init()
 	ligth = new Cube(0, 2, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
-	model = new Model("res/models/StoneBridge.fbx", 0.0f, 0.0f, 4.0f, shader);
-	model->setTexture("StoneBridge.png");
+	model = new Model("res/models/Container.fbx", 0.0f, 0.0f, 4.0f, shader);
+	model->setTexture("Container.png");
 	model->setScale(glm::vec3(0.05f));
 
 	spotLight = new SpotLight();
@@ -110,15 +110,15 @@ void Game::Update()
 	//Render here----------------------------
 	{
 		spotLight->setPosition(ligth->getPosition());
-		ligth->setPosition(spotLight->getPosition());
+	//	ligth->setPosition(spotLight->getPosition());
 
-		//ligth->draw();
+		ligth->draw();
 
 		model->draw();
 
-		//cube->draw();
-		//cube1->draw();
-		//cube2->draw();
+		cube->draw();
+		cube1->draw();
+		cube2->draw();
 		updateShader(shader, glm::vec3(1.0f, 0.0f, 0.0f), camera->getCameraPositon(), ligth->getPosition());
 
 		((FirstPersonCamera*)camera)->updateFirstPersonCamera();

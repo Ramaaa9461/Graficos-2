@@ -18,6 +18,10 @@ DllExport Cube::Cube(int initPositionX, int initPositionY, int initPositionZ, Sh
 
 	this->shader = shader;
 
+	shader->Bind();
+	shader->SetUniforms1i("u_Texture", 0);
+	shader->Unbind();
+
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();
