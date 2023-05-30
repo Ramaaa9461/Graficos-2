@@ -52,7 +52,10 @@
 
 		in vec3 FragPos;            
 		in vec3 v_Normal;           
-
+		in vec2 v_TexCoord;
+	
+		uniform sampler2D u_Texture;
+		
 		uniform Material material;      
 		
 		uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
@@ -159,6 +162,12 @@
 			}
 
 			vec3 result = resultDir + resultSpot + resultPoint;
+
+			//if (applyTexture)
+			//{
+			    vec4 texColor = texture(u_Texture, v_TexCoord);
+			    result *= texColor.rgb;  // Aplicar la textura multiplicando por el color de la textura
+			//}
 
 			FragColor = vec4(result, 1.0);                                
 		};

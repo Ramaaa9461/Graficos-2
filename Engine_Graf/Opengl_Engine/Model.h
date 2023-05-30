@@ -16,6 +16,8 @@ class Model : public Entity3d
 
 public:
 	DllExport Model(const std::string& filePath, int initPositionX, int initPositionY, int initPositionZ, Shader* shader);
+	DllExport void setTexture(std::string imageName);
+
 
 private:
 

@@ -57,7 +57,6 @@ DllExport void Shader::SetUniforms1f(const std::string name, float value)
 DllExport void Shader::SetUniforms1i(const std::string name, int value)
 {
 	GLCall(glUniform1i(GetUniformLocation(name), value));
-
 }
 
 DllExport unsigned int Shader::GetUniformLocation(const std::string& name)

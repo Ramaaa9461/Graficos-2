@@ -9,7 +9,6 @@ Model::Model(const std::string& filePath, int initPositionX, int initPositionY, 
 	loadModel(filePath);
 }
 
-
 void Model::loadModel(const std::string& filePath) 
 {
 	Assimp::Importer importer;
@@ -64,13 +63,14 @@ void Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	numVertices = mesh->mNumVertices;
 
-	// Process vertices and normals
-	vertices = new float[numVertices * 6];  // 6 floats per vertex (3 for position, 3 for normal)
+	// Process vertices, normals, and texture coordinates
+	vertices = new float[numVertices * 8];  // 8 floats per vertex (3 for position, 3 for normal, 2 for texture coordinates)
 	for (unsigned int i = 0; i < numVertices; ++i)
 	{
-		unsigned int vertexOffset = i * 6;
+		unsigned int vertexOffset = i * 8;
 		aiVector3D position = mesh->mVertices[i];
 		aiVector3D normal = mesh->mNormals[i];
+		aiVector3D texCoords = mesh->mTextureCoords[0][i];  // Assuming texture coordinates are in channel 0
 
 		vertices[vertexOffset] = position.x;
 		vertices[vertexOffset + 1] = position.y;
@@ -79,6 +79,9 @@ void Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vertices[vertexOffset + 3] = normal.x;
 		vertices[vertexOffset + 4] = normal.y;
 		vertices[vertexOffset + 5] = normal.z;
+
+		vertices[vertexOffset + 6] = texCoords.x;
+		vertices[vertexOffset + 7] = texCoords.y;
 	}
 
 	// Process indices
@@ -106,15 +109,19 @@ void Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			indices[index++] = face.mIndices[j];
 		}
 	}
+
+	
 	setVertices();
 	setIndixs();
 
 	va = new VertexArray();
-	vb = new VertexBuffer(vertices, numVertices * 6 * sizeof(float)); // El size: Cantidad de vertices * cantidad de floats por vertices
+	vb = new VertexBuffer(vertices, numVertices * 8 * sizeof(float)); 
+	// El size: Cantidad de vertices * cantidad de floats por vertices
 
 	layout = VertexBufferLayout();
 	layout.Push<float>(3);
 	layout.Push<float>(3);
+	layout.Push<float>(2);
 	va->AddBuffer(*vb, layout);
 	va->Bind();
 
@@ -134,6 +141,16 @@ void Model::setIndixs()
 {
 
 
+}
+
+void Model::setTexture(std::string imageName)
+{
+	texture = new Texture("res/textures/" + imageName);
+	shader->Bind();
+
+	shader->SetUniforms1i("u_Texture", 0);
+
+	shader->Unbind();
 }
 
 
