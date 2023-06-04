@@ -1,18 +1,21 @@
 #include "Model.h"
 
 #include <Windows.h>
+#include <glm/gtc/type_ptr.hpp>
+
 
 Model::Model(const std::string& filePath, int initPositionX, int initPositionY, int initPositionZ, Shader* shader) :
 	Entity3d(initPositionX, initPositionY, initPositionZ)
 {
 	this->shader = shader;
 	loadModel(filePath);
+
+	generateVertexBuffer();
 }
 
-void Model::loadModel(const std::string& filePath) 
+void Model::loadModel(const std::string& filePath)
 {
 	Assimp::Importer importer;
-
 	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -45,6 +48,12 @@ void Model::loadModel(const std::string& filePath)
 
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
+	glm::mat4 nodeTransform = aiMatrix4x4ToGlm(node->mTransformation);
+	localModel = glm::mat4(1.0f);
+
+	// Multiply the node's transformation with the parent's transformation
+	localModel *= nodeTransform;
+
 	// Process the node's meshes
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
@@ -61,75 +70,48 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 
 void Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
-	numVertices = mesh->mNumVertices;
+	unsigned int vertexOffset = numVertices * 8;
 
 	// Process vertices, normals, and texture coordinates
-	vertices = new float[numVertices * 8];  // 8 floats per vertex (3 for position, 3 for normal, 2 for texture coordinates)
-	for (unsigned int i = 0; i < numVertices; ++i)
+	for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
 	{
-		unsigned int vertexOffset = i * 8;
 		aiVector3D position = mesh->mVertices[i];
 		aiVector3D normal = mesh->mNormals[i];
-		aiVector3D texCoords = mesh->mTextureCoords[0][i];  // Assuming texture coordinates are in channel 0
+		aiVector3D texCoords;
 
-		vertices[vertexOffset] = position.x;
-		vertices[vertexOffset + 1] = position.y;
-		vertices[vertexOffset + 2] = position.z;
+		if (mesh->HasTextureCoords(0))
+		{
+			texCoords = mesh->mTextureCoords[0][i];
+		}
+		else
+		{
+			texCoords = aiVector3D(0.0f, 0.0f, 0.0f); // Si no hay coordenadas de textura, se asigna un valor por defecto
+		}
 
-		vertices[vertexOffset + 3] = normal.x;
-		vertices[vertexOffset + 4] = normal.y;
-		vertices[vertexOffset + 5] = normal.z;
+		vertices.push_back(position.x);
+		vertices.push_back(position.y);
+		vertices.push_back(position.z);
 
-		vertices[vertexOffset + 6] = texCoords.x;
-		vertices[vertexOffset + 7] = texCoords.y;
+		vertices.push_back(normal.x);
+		vertices.push_back(normal.y);
+		vertices.push_back(normal.z);
+
+		vertices.push_back(texCoords.x);
+		vertices.push_back(texCoords.y);
 	}
 
 	// Process indices
-	numIndices = mesh->mNumFaces * 3;
-	indices = new unsigned int[numIndices];
-	unsigned int index = 0;
 	for (unsigned int i = 0; i < mesh->mNumFaces; ++i)
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; ++j)
 		{
-			indices[index++] = face.mIndices[j];
+			indices.push_back(face.mIndices[j] + vertexOffset);
 		}
 	}
 
-	// Process indices
-	numIndices = mesh->mNumFaces * 3;
-	indices = new unsigned int[numIndices];
-	index = 0;
-	for (unsigned int i = 0; i < mesh->mNumFaces; ++i) 
-	{
-		aiFace face = mesh->mFaces[i];
-		for (unsigned int j = 0; j < face.mNumIndices; ++j)
-		{
-			indices[index++] = face.mIndices[j];
-		}
-	}
-
-	
-	setVertices();
-	setIndixs();
-
-	va = new VertexArray();
-	vb = new VertexBuffer(vertices, numVertices * 8 * sizeof(float)); 
-	// El size: Cantidad de vertices * cantidad de floats por vertices
-
-	layout = VertexBufferLayout();
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	layout.Push<float>(2);
-	va->AddBuffer(*vb, layout);
-	va->Bind();
-
-	ib = new IndexBuffer(indices, numIndices);
-
-	va->Unbind();
-	vb->UnBind();
-	ib->UnBind();
+	numVertices += mesh->mNumVertices;
+	numIndices += mesh->mNumFaces * 3;
 }
 
 void Model::setVertices()
@@ -153,5 +135,47 @@ void Model::setTexture(std::string imageName)
 	shader->Unbind();
 }
 
+void Model::generateVertexBuffer()
+{
+	vb = new VertexBuffer(vertices.data(), vertices.size() * sizeof(float));
+	layout = VertexBufferLayout();
+	layout.Push<float>(3);
+	layout.Push<float>(3);
+	layout.Push<float>(2);
 
+	va = new VertexArray();
+	va->AddBuffer(*vb, layout);
+
+	ib = new IndexBuffer(indices.data(), indices.size());
+
+	va->Unbind();
+	vb->UnBind();
+	ib->UnBind();
+}
+
+
+glm::mat4 Model::aiMatrix4x4ToGlm(const aiMatrix4x4& aiMatrix)
+{
+	glm::mat4 glmMatrix;
+	glmMatrix[0][0] = aiMatrix.a1;
+	glmMatrix[1][0] = aiMatrix.a2;
+	glmMatrix[2][0] = aiMatrix.a3;
+	glmMatrix[3][0] = aiMatrix.a4;
+	glmMatrix[0][1] = aiMatrix.b1;
+	glmMatrix[0][2] = aiMatrix.c1;
+	glmMatrix[0][3] = aiMatrix.d1;
+	glmMatrix[1][1] = aiMatrix.b2;
+	glmMatrix[1][2] = aiMatrix.c2;
+	glmMatrix[1][3] = aiMatrix.d2;
+	glmMatrix[2][1] = aiMatrix.b3;
+	glmMatrix[2][2] = aiMatrix.c3;
+	glmMatrix[2][3] = aiMatrix.d3;
+	glmMatrix[3][1] = aiMatrix.b4;
+	glmMatrix[3][3] = aiMatrix.d4;
+	glmMatrix[3][2] = aiMatrix.c4;
+
+	//glmMatrix = glm::make_mat4(&aiMatrix.a1);
+
+	return glmMatrix;
+}
 

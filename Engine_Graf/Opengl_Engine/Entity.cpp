@@ -67,7 +67,8 @@ DllExport void Entity::UpdateTRSMat()
 	glm::mat4 sca = glm::scale(glm::mat4(1.0f), scale);
 
 	glm::mat4 rot = rotX * rotY * rotZ;
-	TRS = tras * rot * sca;
+	//TRS = tras * rot * sca;
+	TRS = sca * rot * tras;
 }
 
 
@@ -126,6 +127,7 @@ DllExport void Entity::setScaleY(float scalY)
 DllExport void Entity::setScaleZ(float scalZ)
 {
 	 scale.z = scalZ;
+	 UpdateTRSMat();
 }
 	  
 DllExport float Entity::getScaleX()
@@ -146,11 +148,13 @@ float Entity::getScaleZ()
 void Entity::setRotationX(float rotX)
 {
 	rotation.x = rotX;
+	UpdateTRSMat();
 }
 
 void Entity::setRotationY(float rotY)
 {
 	rotation.y = rotY;
+	UpdateTRSMat();
 }
 
 DllExport void Entity::setRotationZ(float rotZ)

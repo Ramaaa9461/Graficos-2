@@ -15,6 +15,8 @@ class Entity3d : public Entity
 
 protected:
 
+	glm::mat4 localModel = glm::mat4(1);
+
 	VertexArray* va;
 	VertexBuffer* vb;
 	VertexBufferLayout layout;

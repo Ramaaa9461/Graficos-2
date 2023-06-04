@@ -165,7 +165,11 @@
 			vec3 result = resultDir + resultSpot + resultPoint;
 
 			vec4 texColor = texture(u_Texture, v_TexCoord);
-			result *= texColor.rgb;
+			
+			if (texColor.rgb != vec3(0.0))//No hace nada 
+			{
+				result *= texColor.rgb;
+			}
 
 			FragColor = vec4(result, 1.0);                                
 		};

@@ -47,6 +47,7 @@ private:
 	PointLight* pointLight2;
 
 	Model* model;
+	Model* model1;
 
 	Cube* cube;
 	Cube* cube1;

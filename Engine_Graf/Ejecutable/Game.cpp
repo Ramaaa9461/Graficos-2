@@ -39,9 +39,12 @@ void Game::Init()
 	ligth = new Cube(0, 2, 0, shader);
 	ligth->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
-	model = new Model("res/models/Container.fbx", 0.0f, 0.0f, 4.0f, shader);
-	model->setTexture("Container.png");
-	model->setScale(glm::vec3(0.05f));
+	model = new Model("res/models/cartoon_girl.fbx", 0.0f, 0.0f, 0.0f, shader);
+	model->setTexture("cartoon_girl.png");
+	//model->setScale(glm::vec3(0.05f));
+
+//	model1 = new Model("res/models/Container.fbx", 0.0f, 4.0f, 0.0f, shader);
+//	model1->setTexture("Container.png");
 
 	spotLight = new SpotLight();
 	spotLight2 = new SpotLight();
@@ -110,11 +113,11 @@ void Game::Update()
 	//Render here----------------------------
 	{
 		spotLight->setPosition(ligth->getPosition());
-	//	ligth->setPosition(spotLight->getPosition());
 
 		ligth->draw();
 
 		model->draw();
+//		model1->draw();
 
 		cube->draw();
 		cube1->draw();
@@ -134,6 +137,7 @@ void Game::DeInit()
 	delete camera;
 
 	delete model;
+	//delete model1;
 
 	delete cube;
 	delete cube1;
