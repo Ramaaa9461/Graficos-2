@@ -41,7 +41,7 @@ void Game::Init()
 
 	model = new Model("res/models/cartoon_girl.fbx", 0.0f, 0.0f, 0.0f, shader);
 	model->setTexture("cartoon_girl.png");
-	//model->setScale(glm::vec3(0.05f));
+	model->setScale(glm::vec3(0.05f));
 
 //	model1 = new Model("res/models/Container.fbx", 0.0f, 4.0f, 0.0f, shader);
 //	model1->setTexture("Container.png");

@@ -11,6 +11,14 @@
 
 #include <assimp/mesh.h>
 
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texCoords;
+};
+
+
 class Model : public Entity3d
 {
 
@@ -22,18 +30,16 @@ public:
 private:
 
 	DllExport void loadModel(const std::string& filePath);
-	DllExport void processNode(aiNode* node, const aiScene* scene);
-	DllExport void processMesh(aiMesh* mesh, const aiScene* scene);
+
+	DllExport void ProcessNode(aiNode* node, const aiScene* scene, const glm::mat4& parentTransform);
+	DllExport void ProcessMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4& transform);
+
 	DllExport void generateVertexBuffer();
-	DllExport glm::mat4 aiMatrix4x4ToGlm(const aiMatrix4x4& aiMatrix);
+	DllExport std::vector<float> FlattenVertices();
+		DllExport glm::mat4 aiMatrix4x4ToGlm(const aiMatrix4x4& aiMatrix);
 	
-
-	std::vector<float> vertices;
-	std::vector<unsigned int> indices;
-	unsigned int numVertices = 0;
-	unsigned int numIndices = 0;
-
-	std::string directory;
+	std::vector<Vertex> m_Vertices;
+	std::vector<unsigned int> m_Indices;
 
 	DllExport void  setVertices() override;
 	DllExport void  setIndixs()   override; 

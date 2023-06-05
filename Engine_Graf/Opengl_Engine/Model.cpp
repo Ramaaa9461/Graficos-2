@@ -8,9 +8,9 @@ Model::Model(const std::string& filePath, int initPositionX, int initPositionY, 
 	Entity3d(initPositionX, initPositionY, initPositionZ)
 {
 	this->shader = shader;
+
 	loadModel(filePath);
 
-	generateVertexBuffer();
 }
 
 void Model::loadModel(const std::string& filePath)
@@ -41,77 +41,74 @@ void Model::loadModel(const std::string& filePath)
 		return;
 	}
 
-	directory = filePath.substr(0, filePath.find_last_of('/'));
-
-	processNode(scene->mRootNode, scene);
+	glm::mat4 identity(1.0f);
+	ProcessNode(scene->mRootNode, scene, identity);
+	
+	generateVertexBuffer();
 }
 
-void Model::processNode(aiNode* node, const aiScene* scene)
+void Model::ProcessNode(aiNode* node, const aiScene* scene, const glm::mat4& parentTransform)
 {
-	glm::mat4 nodeTransform = aiMatrix4x4ToGlm(node->mTransformation);
-	localModel = glm::mat4(1.0f);
-
-	// Multiply the node's transformation with the parent's transformation
-	localModel *= nodeTransform;
+	glm::mat4 currentTransform = parentTransform * aiMatrix4x4ToGlm(node->mTransformation);
+	/*/Seguro falta algo aca*/
 
 	// Process the node's meshes
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		processMesh(mesh, scene);
+		ProcessMesh(mesh, scene, currentTransform);
 	}
 
 	// Recursively process the node's children
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)
 	{
-		processNode(node->mChildren[i], scene);
+		ProcessNode(node->mChildren[i], scene, currentTransform);
 	}
 }
 
-void Model::processMesh(aiMesh* mesh, const aiScene* scene)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4& transform)
 {
-	unsigned int vertexOffset = numVertices * 8;
+	for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
+		Vertex vertex;
+		glm::vec3 vector;
 
-	// Process vertices, normals, and texture coordinates
-	for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
-	{
-		aiVector3D position = mesh->mVertices[i];
-		aiVector3D normal = mesh->mNormals[i];
-		aiVector3D texCoords;
+		// Positions
+		vector.x = mesh->mVertices[i].x;
+		vector.y = mesh->mVertices[i].y;
+		vector.z = mesh->mVertices[i].z;
+		vertex.position = glm::vec3(transform * glm::vec4(vector, 1.0f));
 
-		if (mesh->HasTextureCoords(0))
+		// Normals
+		if (mesh->HasNormals()) 
 		{
-			texCoords = mesh->mTextureCoords[0][i];
+			vector.x = mesh->mNormals[i].x;
+			vector.y = mesh->mNormals[i].y;
+			vector.z = mesh->mNormals[i].z;
+			vertex.normal = glm::normalize(glm::mat3(transform) * vector);
 		}
-		else
+
+		// Texture coordinates
+		if (mesh->HasTextureCoords(0)) {
+			vertex.texCoords.x = mesh->mTextureCoords[0][i].x;
+			vertex.texCoords.y = mesh->mTextureCoords[0][i].y;
+		}
+		else 
 		{
-			texCoords = aiVector3D(0.0f, 0.0f, 0.0f); // Si no hay coordenadas de textura, se asigna un valor por defecto
+			vertex.texCoords = glm::vec2(0.0f, 0.0f); // Si no hay coordenadas de textura, asigna valores predeterminados
 		}
 
-		vertices.push_back(position.x);
-		vertices.push_back(position.y);
-		vertices.push_back(position.z);
-
-		vertices.push_back(normal.x);
-		vertices.push_back(normal.y);
-		vertices.push_back(normal.z);
-
-		vertices.push_back(texCoords.x);
-		vertices.push_back(texCoords.y);
+		m_Vertices.push_back(vertex);
 	}
 
-	// Process indices
-	for (unsigned int i = 0; i < mesh->mNumFaces; ++i)
+	unsigned int baseIndex = m_Vertices.size() - mesh->mNumVertices;
+	for (unsigned int i = 0; i < mesh->mNumFaces; ++i) 
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; ++j)
 		{
-			indices.push_back(face.mIndices[j] + vertexOffset);
+			m_Indices.push_back(baseIndex + face.mIndices[j]);
 		}
 	}
-
-	numVertices += mesh->mNumVertices;
-	numIndices += mesh->mNumFaces * 3;
 }
 
 void Model::setVertices()
@@ -137,7 +134,9 @@ void Model::setTexture(std::string imageName)
 
 void Model::generateVertexBuffer()
 {
-	vb = new VertexBuffer(vertices.data(), vertices.size() * sizeof(float));
+	std::vector<float> flattenedVertices = FlattenVertices();
+
+	vb = new VertexBuffer(flattenedVertices.data(), flattenedVertices.size() * sizeof(float));
 	layout = VertexBufferLayout();
 	layout.Push<float>(3);
 	layout.Push<float>(3);
@@ -146,13 +145,34 @@ void Model::generateVertexBuffer()
 	va = new VertexArray();
 	va->AddBuffer(*vb, layout);
 
-	ib = new IndexBuffer(indices.data(), indices.size());
+	ib = new IndexBuffer(m_Indices.data(), m_Indices.size());
 
 	va->Unbind();
 	vb->UnBind();
 	ib->UnBind();
 }
 
+std::vector<float> Model::FlattenVertices()
+{
+	std::vector<float> flattenedVertices;
+	flattenedVertices.reserve(m_Vertices.size() * 8); // 8 components per vertex (3 for position, 3 for normal, 2 for texCoords)
+
+	for (const Vertex& vertex : m_Vertices) 
+	{
+		flattenedVertices.push_back(vertex.position.x);
+		flattenedVertices.push_back(vertex.position.y);
+		flattenedVertices.push_back(vertex.position.z);
+
+		flattenedVertices.push_back(vertex.normal.x);
+		flattenedVertices.push_back(vertex.normal.y);
+		flattenedVertices.push_back(vertex.normal.z);
+
+		flattenedVertices.push_back(vertex.texCoords.x);
+		flattenedVertices.push_back(vertex.texCoords.y);
+	}
+
+	return flattenedVertices;
+}
 
 glm::mat4 Model::aiMatrix4x4ToGlm(const aiMatrix4x4& aiMatrix)
 {
@@ -173,8 +193,6 @@ glm::mat4 Model::aiMatrix4x4ToGlm(const aiMatrix4x4& aiMatrix)
 	glmMatrix[3][1] = aiMatrix.b4;
 	glmMatrix[3][3] = aiMatrix.d4;
 	glmMatrix[3][2] = aiMatrix.c4;
-
-	//glmMatrix = glm::make_mat4(&aiMatrix.a1);
 
 	return glmMatrix;
 }
