@@ -3,7 +3,7 @@
 #include "Renderer.h"
 
 
-	class Texture
+	class TextureImporter
 	{
 
 	private:
@@ -13,8 +13,8 @@
 		int m_Width, m_Height, m_BPP;
 
 	public:
-		DllExport Texture(const std::string& path);
-		DllExport ~Texture();
+		DllExport TextureImporter(const std::string& path);
+		DllExport ~TextureImporter();
 
 		DllExport void Bind(unsigned int slot = 0) const;
 		DllExport void UnBind() const;

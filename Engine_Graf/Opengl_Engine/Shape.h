@@ -7,7 +7,7 @@
 #include "IndexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
-#include "Texture.h"
+#include "TextureImporter.h"
 #include "ShaderType.h"
 
 	class Shape : public Entity2d

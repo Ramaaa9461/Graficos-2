@@ -6,7 +6,7 @@
 #include "IndexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
-#include "Texture.h"
+#include "TextureImporter.h"
 #include "ShaderType.h"
 #include "Material.h"
 
@@ -22,7 +22,7 @@ protected:
 	VertexBufferLayout layout;
 	IndexBuffer* ib;
 	Shader* shader;
-	Texture* texture;
+	TextureImporter* texture;
 
 	Material* material;
 	

@@ -7,7 +7,7 @@
 #include "IndexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
-#include "Texture.h"
+#include "TextureImporter.h"
 #include "ShaderType.h"
 
 	class Entity2d : public Entity
@@ -20,7 +20,7 @@
 		VertexBufferLayout layout;
 		IndexBuffer* ib;
 		Shader* shader;
-		Texture* texture;
+		TextureImporter* texture;
 
 		ShaderType shaderType;
 
