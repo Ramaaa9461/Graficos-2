@@ -11,9 +11,7 @@
 #include "Input/Input.h"
 #include "Timer/Timer.h"
 #include "CollisionManager/CollisionManager.h"
-#include "OcclusionCulling/OcclusionCulling.h"
 #include "Material/MaterialManager.h"
-#include "BSP/BSP.h"
 using namespace std;
 
 class DllApi BaseGame

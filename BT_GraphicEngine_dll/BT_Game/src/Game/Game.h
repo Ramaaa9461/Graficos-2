@@ -25,7 +25,6 @@ private:
 	Sprite* floor;
 	Entity3D* staticModel;
 	Entity3D* model;
-	Entity3D* planes;
 
 	//----------LIGHTS----------
 	DirectionalLight* directionalLight;

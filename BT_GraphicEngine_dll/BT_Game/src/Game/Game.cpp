@@ -6,7 +6,6 @@ Game::Game()
 	floor = nullptr;
 	staticModel = nullptr;
 	model = nullptr;
-	planes = nullptr;
 	directionalLight = nullptr;
 }
 
@@ -34,12 +33,6 @@ Game::~Game()
 	{
 		delete model;
 		model = nullptr;
-	}
-
-	if (planes != nullptr)
-	{
-		delete planes;
-		planes = nullptr;
 	}
 
 	if (directionalLight != nullptr)
@@ -79,14 +72,6 @@ void Game::Begin()
 	model = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
 	model->SetPosition(glm::vec3(0.f, 2.f, 0.f));
 
-	planes = new Entity3D(renderer);
-	planes = ModelImporter::LoadModel(renderer, "res/Models/Planes/Planes.obj");
-	planes->SetPosition(glm::vec3(0.f, 5.f, 0.f));
-
-	//------------------------------BSP---------------------------------	
-	BSP::FindPlanes(planes);
-	BSP::AddEntity(staticModel);
-	BSP::AddEntity(model);
 
 	//----------------------------LIGHTS---------------------------------
 	directionalLight = new DirectionalLight(renderer);
@@ -106,7 +91,6 @@ void Game::Update()
 
 	staticModel->Update();
 	model->Update();
-	planes->Update();
 
 	Inputs();
 }
@@ -116,7 +100,6 @@ void Game::Draw()
 	floor->Draw();
 	staticModel->Draw();
 	model->Draw();
-	planes->Draw();
 	player->Draw();
 }
 
@@ -126,7 +109,6 @@ void Game::End()
 	floor->DeInit();
 	staticModel->DeInit();
 	model->DeInit();
-	planes->DeInit();
 }
 
 void Game::Inputs()
@@ -140,69 +122,67 @@ void Game::Inputs()
 	{
 		directionalLight->color = Color::GetRandomColor();
 	}
+	if (Input::IsKeyDown(KEY_3))
+	{
+		glm::vec3 lightDirection = directionalLight->GetDirection();
+		lightDirection.x += 150.f * Timer::GetDeltaTime();
+		directionalLight->SetDirection(lightDirection);
+	}
 
 	//----------------------------TRANSFORMS---------------------------------
-	if (Input::IsKeyPressed(KEY_3))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_1))
 	{
 		glm::vec3 guitarScale = model->GetScale();
 		guitarScale -= glm::vec3(1) * Timer::GetDeltaTime();
 		model->SetScale(guitarScale);
 	}
-	if (Input::IsKeyPressed(KEY_4))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_2))
 	{
 		glm::vec3 guitarScale = model->GetScale();
 		guitarScale += glm::vec3(1) * Timer::GetDeltaTime();
 		model->SetScale(guitarScale);
 	}
-	if (Input::IsKeyPressed(KEY_5))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_7))
 	{
 		float guitarRotX = model->GetRotationX();
 		guitarRotX -= 15.f * Timer::GetDeltaTime();
 		model->SetRotationX(guitarRotX);
 	}
-	if (Input::IsKeyPressed(KEY_6))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_9))
 	{
 		float guitarRotX = model->GetRotationX();
 		guitarRotX += 15.f * Timer::GetDeltaTime();
 		model->SetRotationX(guitarRotX);
 	}
-	if (Input::IsKeyPressed(KEY_7))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_4))
 	{
 		float guitarRotX = model->GetPositionX();
 		guitarRotX -= 10.f * Timer::GetDeltaTime();
 		model->SetPositionX(guitarRotX);
 	}
-	if (Input::IsKeyPressed(KEY_8))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_6))
 	{
 		float guitarRotX = model->GetPositionX();
 		guitarRotX += 10.f * Timer::GetDeltaTime();
 		model->SetPositionX(guitarRotX);
 	}
-	if (Input::IsKeyPressed(KEY_9))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_8))
 	{
 		float guitarRotX = model->GetPositionZ();
 		guitarRotX -= 10.f * Timer::GetDeltaTime();
 		model->SetPositionZ(guitarRotX);
 	}
-	if (Input::IsKeyPressed(KEY_0))
+	if (Input::IsKeyPressed(GLFW_KEY_KP_5))
 	{
 		float guitarRotX = model->GetPositionZ();
 		guitarRotX += 10.f * Timer::GetDeltaTime();
 		model->SetPositionZ(guitarRotX);
 	}
-
-	//------------------------------------------------------------------
+	
 	if (Input::IsKeyDown(KEY_Z))
 	{
 		model->Reset();
 	}
 
-	if (Input::IsKeyDown(KEY_X))
-	{
-		BSP::TogglePlaneStatus(); // draw
-	}
-	if (Input::IsKeyDown(KEY_C))
-	{
-		BSP::ToggleStatus(); // enable
-	}
+
 }

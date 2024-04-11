@@ -48,10 +48,8 @@ void BaseGame::Run()
 	camera->SetSensitivity(0.25f);
 
 	Input::Init(window, camera);
-	OcclusionCulling::Init(camera);
 	MaterialManager::Init(renderer);
 
-	BSP::Init(renderer, camera);
 
 	srand(time(NULL));
 
@@ -63,10 +61,8 @@ void BaseGame::Run()
 
 		Timer::Update(glfwGetTime());
 		camera->Update();
-		OcclusionCulling::Update();
 
 		Update();
-		BSP::Update();
 		Draw();
 		
 		renderer->SwapBuffers(window);
@@ -74,7 +70,6 @@ void BaseGame::Run()
 	}
 
 	End();
-	BSP::DeInit();
 	MaterialManager::DeInit();
 	window->TerminateLibrary();
 	glfwTerminate();
