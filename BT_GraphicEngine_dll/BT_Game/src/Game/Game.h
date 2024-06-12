@@ -23,11 +23,13 @@ private:
 
 	//----------OBJECTS----------
 	Sprite* floor;
-	Entity3D* staticModel;
-	Entity3D* model;
+	Entity3D* model1;
+	Entity3D* model2;
 
 	//----------LIGHTS----------
 	DirectionalLight* directionalLight;
+	PointLight* pointLight;
+	SpotLight* spotLight;
 
 	void Inputs();
 

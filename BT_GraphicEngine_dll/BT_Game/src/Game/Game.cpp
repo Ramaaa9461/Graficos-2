@@ -4,9 +4,10 @@ Game::Game()
 {
 	player = nullptr;
 	floor = nullptr;
-	staticModel = nullptr;
-	model = nullptr;
+	model1 = nullptr;
 	directionalLight = nullptr;
+	pointLight = nullptr;
+	spotLight = nullptr;
 }
 
 Game::~Game()
@@ -23,22 +24,28 @@ Game::~Game()
 		floor = nullptr;
 	}
 
-	if (staticModel != nullptr)
+	if (model1 != nullptr)
 	{
-		delete staticModel;
-		staticModel = nullptr;
-	}
-
-	if (model != nullptr)
-	{
-		delete model;
-		model = nullptr;
+		delete model1;
+		model1 = nullptr;
 	}
 
 	if (directionalLight != nullptr)
 	{
 		directionalLight = nullptr;
 		delete directionalLight;
+	}
+
+	if (pointLight != nullptr)
+	{
+		pointLight = nullptr;
+		delete pointLight;
+	}
+
+	if (spotLight != nullptr)
+	{
+		spotLight = nullptr;
+		delete spotLight;
 	}
 }
 
@@ -49,7 +56,7 @@ void Game::Begin()
 	//----------------------------PLAYER---------------------------------
 	player = new Player(renderer);
 	player->Init(camera, 5.f, 75.f);
-	player->SetPosition(glm::vec3(-2.5f, 5.f, 25.f));
+	player->SetPosition(glm::vec3(-2.5f, 5.0f, 10.0f));
 
 	camera->SetTarget(player);
 	camera->SetOffset(10.f);
@@ -57,29 +64,66 @@ void Game::Begin()
 	//----------------------------OBJECTS---------------------------------
 	floor = new Sprite(renderer);
 	floor->Init(SPRITE_TYPE::QUAD);
-	floor->LoadTexture("res/grass.jpg", false, TEXTURE_TYPE::BASE);
-	floor->material = MaterialManager::GetTextureMaterial();
-	floor->color.SetColorRGB(255, 255, 255);
-	floor->SetPosition(glm::vec3(0.f, -.5f, 0.f));
+	floor->LoadTexture("res/floor.png", false, TEXTURE_TYPE::BASE);
+	floor->SetPosition(glm::vec3(0.0f, -0.5f, 0.0f));
 	floor->SetRotationX(90.f);
-	floor->SetScale(50.f, 50.f, 1.f);
+	floor->SetScale(50.0f, 50.0f, 1.0f);
 
-	staticModel = new Entity3D(renderer);
-	staticModel = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
-	staticModel->SetPosition(glm::vec3(0.f, 2.f, 15.f));
+	model1 = new Entity3D(renderer);
+	model1 = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
+	model1->SetPosition(glm::vec3(0.0f, 2.0f, 0.0f));
 
-	model = new Entity3D(renderer);
-	model = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
-	model->SetPosition(glm::vec3(0.f, 2.f, 0.f));
-
+	model2 = new Entity3D(renderer);
+	model2 = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
+	model2->SetPosition(glm::vec3(0.0f, 0.0f, 10.0f));
+	model2->SetRotation(glm::vec3(0.0f, 180.0f, 0.0f));
 
 	//----------------------------LIGHTS---------------------------------
+
+#pragma region DirectionalLightValues
 	directionalLight = new DirectionalLight(renderer);
-	directionalLight->color.SetColorRGB(255, 255, 255);
+
 	directionalLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
-	directionalLight->SetAmbient(glm::vec3(1.f, 1.f, 1.f));
-	directionalLight->SetDiffuse(glm::vec3(0.6f, 0.6f, 0.6f));
-	directionalLight->SetSpecular(glm::vec3(0.25f, 0.25f, 0.25f));
+
+	directionalLight->SetAmbient(glm::vec3(0.2f));
+	directionalLight->SetDiffuse(glm::vec3(0.5f));
+	directionalLight->SetSpecular(glm::vec3(1.0f));
+#pragma endregion
+
+#pragma region PointLightValues
+
+	pointLight = new PointLight(renderer);
+
+	pointLight->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
+	pointLight->SetAmbient(glm::vec3(0.2f));
+	pointLight->SetDiffuse(glm::vec3(0.5f));
+	pointLight->SetSpecular(glm::vec3(1.0f));
+
+	pointLight->SetConstant(1.0f);
+	pointLight->SetLinear(0.09f);
+	pointLight->SetQuadratic(0.032f);
+
+#pragma endregion
+
+#pragma region SpotLightValues
+	
+	spotLight = new SpotLight(renderer);
+
+	spotLight->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
+	spotLight->SetDirection(glm::vec3(0.0f, 0.0f, -1.0f));
+
+	spotLight->SetCutOff(12.5f);
+	spotLight->SetOuterCutOff(17.5f);
+
+	spotLight->SetAmbient(glm::vec3(0.2f));
+	spotLight->SetDiffuse(glm::vec3(0.5f));
+	spotLight->SetSpecular(glm::vec3(1.0f));
+
+	spotLight->SetConstant(1.0f);
+	spotLight->SetLinear(0.09f);
+	spotLight->SetQuadratic(0.032f);
+
+#pragma endregion
 }
 
 void Game::Update()
@@ -88,9 +132,11 @@ void Game::Update()
 	camera->Update();
 
 	directionalLight->UseLight();
+	pointLight->UseLight();
+	spotLight->UseLight();
 
-	staticModel->Update();
-	model->Update();
+	model1->Update();
+	model2->Update();
 
 	Inputs();
 }
@@ -98,8 +144,8 @@ void Game::Update()
 void Game::Draw()
 {
 	floor->Draw();
-	staticModel->Draw();
-	model->Draw();
+	model1->Draw();
+	model2->Draw();
 	player->Draw();
 }
 
@@ -107,8 +153,8 @@ void Game::End()
 {
 	player->DeInit();
 	floor->DeInit();
-	staticModel->DeInit();
-	model->DeInit();
+	model1->DeInit();
+	model2->DeInit();
 }
 
 void Game::Inputs()
@@ -120,69 +166,66 @@ void Game::Inputs()
 	}
 	if (Input::IsKeyDown(KEY_2))
 	{
-		directionalLight->color = Color::GetRandomColor();
+		pointLight->SetEnabled(!pointLight->IsEnabled());
 	}
 	if (Input::IsKeyDown(KEY_3))
 	{
-		glm::vec3 lightDirection = directionalLight->GetDirection();
-		lightDirection.x += 150.f * Timer::GetDeltaTime();
-		directionalLight->SetDirection(lightDirection);
+		spotLight->SetEnabled(!spotLight->IsEnabled());
 	}
 
 	//----------------------------TRANSFORMS---------------------------------
+
+#pragma region Input_Model
+
 	if (Input::IsKeyPressed(GLFW_KEY_KP_1))
 	{
-		glm::vec3 guitarScale = model->GetScale();
+		glm::vec3 guitarScale = model1->GetScale();
 		guitarScale -= glm::vec3(1) * Timer::GetDeltaTime();
-		model->SetScale(guitarScale);
+		model1->SetScale(guitarScale);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_2))
 	{
-		glm::vec3 guitarScale = model->GetScale();
+		glm::vec3 guitarScale = model1->GetScale();
 		guitarScale += glm::vec3(1) * Timer::GetDeltaTime();
-		model->SetScale(guitarScale);
+		model1->SetScale(guitarScale);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_7))
 	{
-		float guitarRotX = model->GetRotationX();
+		float guitarRotX = model1->GetRotationX();
 		guitarRotX -= 15.f * Timer::GetDeltaTime();
-		model->SetRotationX(guitarRotX);
+		model1->SetRotationX(guitarRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_9))
 	{
-		float guitarRotX = model->GetRotationX();
+		float guitarRotX = model1->GetRotationX();
 		guitarRotX += 15.f * Timer::GetDeltaTime();
-		model->SetRotationX(guitarRotX);
+		model1->SetRotationX(guitarRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_4))
 	{
-		float guitarRotX = model->GetPositionX();
+		float guitarRotX = model1->GetPositionX();
 		guitarRotX -= 10.f * Timer::GetDeltaTime();
-		model->SetPositionX(guitarRotX);
+		model1->SetPositionX(guitarRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_6))
 	{
-		float guitarRotX = model->GetPositionX();
+		float guitarRotX = model1->GetPositionX();
 		guitarRotX += 10.f * Timer::GetDeltaTime();
-		model->SetPositionX(guitarRotX);
+		model1->SetPositionX(guitarRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_8))
 	{
-		float guitarRotX = model->GetPositionZ();
+		float guitarRotX = model1->GetPositionZ();
 		guitarRotX -= 10.f * Timer::GetDeltaTime();
-		model->SetPositionZ(guitarRotX);
+		model1->SetPositionZ(guitarRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_5))
 	{
-		float guitarRotX = model->GetPositionZ();
+		float guitarRotX = model1->GetPositionZ();
 		guitarRotX += 10.f * Timer::GetDeltaTime();
-		model->SetPositionZ(guitarRotX);
+		model1->SetPositionZ(guitarRotX);
 	}
-	
-	if (Input::IsKeyDown(KEY_Z))
-	{
-		model->Reset();
-	}
+#pragma endregion
 
 
 }

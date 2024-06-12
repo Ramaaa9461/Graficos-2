@@ -50,7 +50,6 @@ void BaseGame::Run()
 	Input::Init(window, camera);
 	MaterialManager::Init(renderer);
 
-
 	srand(time(NULL));
 
 	Begin();

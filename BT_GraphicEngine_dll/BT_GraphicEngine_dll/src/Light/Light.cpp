@@ -1,5 +1,6 @@
 #include "Light.h"
 
+
 Light::Light(Renderer* renderer) : Entity(renderer)
 {
 	color = Color();

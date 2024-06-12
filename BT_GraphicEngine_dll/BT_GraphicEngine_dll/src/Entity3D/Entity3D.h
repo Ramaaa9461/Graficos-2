@@ -21,7 +21,6 @@ protected:
 
 	virtual void SetUniforms() override;
 	virtual void UpdateShader() override;
-	void GenerateVolumeAABB();
 
 public:
 	Entity3D();
@@ -32,9 +31,6 @@ public:
 	void Init();
 	void Draw();
 	void DeInit();
-
-	glm::vec3 minAABB;
-	glm::vec3 maxAABB;
 };
 
 #endif
