@@ -5,6 +5,7 @@ Game::Game()
 	player = nullptr;
 	floor = nullptr;
 	model1 = nullptr;
+	model2 = nullptr;
 	directionalLight = nullptr;
 	pointLight = nullptr;
 	spotLight = nullptr;
@@ -75,7 +76,7 @@ void Game::Begin()
 
 	model2 = new Entity3D(renderer);
 	model2 = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
-	model2->SetPosition(glm::vec3(0.0f, 0.0f, 10.0f));
+	model2->SetPosition(glm::vec3(0.0f, 2.0f, 10.0f));
 	model2->SetRotation(glm::vec3(0.0f, 180.0f, 0.0f));
 
 	//----------------------------LIGHTS---------------------------------
@@ -106,7 +107,7 @@ void Game::Begin()
 #pragma endregion
 
 #pragma region SpotLightValues
-	
+
 	spotLight = new SpotLight(renderer);
 
 	spotLight->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
@@ -179,53 +180,68 @@ void Game::Inputs()
 
 	if (Input::IsKeyPressed(GLFW_KEY_KP_1))
 	{
-		glm::vec3 guitarScale = model1->GetScale();
-		guitarScale -= glm::vec3(1) * Timer::GetDeltaTime();
-		model1->SetScale(guitarScale);
+		glm::vec3 modelScale = model1->GetScale();
+		modelScale -= glm::vec3(1) * Timer::GetDeltaTime();
+		model1->SetScale(modelScale);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_2))
 	{
-		glm::vec3 guitarScale = model1->GetScale();
-		guitarScale += glm::vec3(1) * Timer::GetDeltaTime();
-		model1->SetScale(guitarScale);
+		glm::vec3 modelScale = model1->GetScale();
+		modelScale += glm::vec3(1) * Timer::GetDeltaTime();
+		model1->SetScale(modelScale);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_7))
 	{
-		float guitarRotX = model1->GetRotationX();
-		guitarRotX -= 15.f * Timer::GetDeltaTime();
-		model1->SetRotationX(guitarRotX);
+		float modelRotX = model1->GetRotationX();
+		modelRotX -= 15.f * Timer::GetDeltaTime();
+		model1->SetRotationX(modelRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_9))
 	{
-		float guitarRotX = model1->GetRotationX();
-		guitarRotX += 15.f * Timer::GetDeltaTime();
-		model1->SetRotationX(guitarRotX);
+		float modelRotX = model1->GetRotationX();
+		modelRotX += 15.f * Timer::GetDeltaTime();
+		model1->SetRotationX(modelRotX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_4))
 	{
-		float guitarRotX = model1->GetPositionX();
-		guitarRotX -= 10.f * Timer::GetDeltaTime();
-		model1->SetPositionX(guitarRotX);
+		float modelPosX = model1->GetPositionX();
+		modelPosX -= 10.f * Timer::GetDeltaTime();
+		model1->SetPositionX(modelPosX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_6))
 	{
-		float guitarRotX = model1->GetPositionX();
-		guitarRotX += 10.f * Timer::GetDeltaTime();
-		model1->SetPositionX(guitarRotX);
+		float modelPosX = model1->GetPositionX();
+		modelPosX += 10.f * Timer::GetDeltaTime();
+		model1->SetPositionX(modelPosX);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_8))
 	{
-		float guitarRotX = model1->GetPositionZ();
-		guitarRotX -= 10.f * Timer::GetDeltaTime();
-		model1->SetPositionZ(guitarRotX);
+		float modelPosZ = model1->GetPositionZ();
+		modelPosZ -= 10.f * Timer::GetDeltaTime();
+		model1->SetPositionZ(modelPosZ);
 	}
 	if (Input::IsKeyPressed(GLFW_KEY_KP_5))
 	{
-		float guitarRotX = model1->GetPositionZ();
-		guitarRotX += 10.f * Timer::GetDeltaTime();
-		model1->SetPositionZ(guitarRotX);
+		float modelPosZ = model1->GetPositionZ();
+		modelPosZ += 10.f * Timer::GetDeltaTime();
+		model1->SetPositionZ(modelPosZ);
 	}
 #pragma endregion
 
+	if (Input::IsKeyDown(KEY_P))
+	{
+		bool follow = !camera->GetFollowStatus();
 
+		camera->SetFollowStatus(follow);
+
+		if (follow)
+		{
+			camera->SetTarget(model1);
+		}
+		else
+		{
+			camera->SetTarget(player);
+		}
+
+	}
 }

@@ -57,6 +57,7 @@ public:
 	float GetYaw();
 	float GetPitch();
 	float GetSensitivity();
+	bool GetFollowStatus();
 
 	float GetNear();
 	float GetFar();

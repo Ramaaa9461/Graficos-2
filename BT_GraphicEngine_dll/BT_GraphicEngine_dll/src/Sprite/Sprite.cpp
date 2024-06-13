@@ -78,8 +78,6 @@ void Sprite::Init(SPRITE_TYPE spriteType)
 
 	//SetTextureCoordinates(currFrame);
 	renderer->SetBaseAttribs(locationTexCoord, 2, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
-
-	GenerateVolumeAABB();
 }
 
 void Sprite::Update()

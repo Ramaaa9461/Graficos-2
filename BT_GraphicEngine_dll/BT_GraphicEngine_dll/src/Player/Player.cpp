@@ -11,9 +11,9 @@ Player::Player() : Entity3D()
 Player::Player(Renderer* renderer) : Entity3D(renderer)
 {
 	camera = nullptr;
-	moveBaseSpeed = 0.f;
-	moveSpeed = 0.f;
-	rotSpeed = 0.f;
+	moveBaseSpeed = 0.0f;
+	moveSpeed = 0.0f;
+	rotSpeed = 0.0f;
 }
 
 Player::~Player()
@@ -68,11 +68,6 @@ void Player::Inputs()
 	{
 		moveSpeed = moveBaseSpeed;
 	}
-
-	/*if (Input::IsKeyPressed(KEY_R))
-	{
-		SetPosition(glm::vec3(0.f));
-	}*/
 }
 
 float Player::GetSpeedDelta()

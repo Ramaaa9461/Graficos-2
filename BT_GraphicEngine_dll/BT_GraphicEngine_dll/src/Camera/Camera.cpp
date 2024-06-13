@@ -94,6 +94,11 @@ void Camera::SetFollowStatus(bool status)
 	followTarget = status;
 }
 
+bool Camera::GetFollowStatus()
+{
+	return followTarget;
+}
+
 float Camera::GetFOV()
 {
 	return fov;
@@ -139,8 +144,14 @@ void Camera::UpdateDirection()
 
 	if (target != nullptr)
 	{
-		if (followTarget) SetPosition(target->GetPosition() - transform.forward * offset);
-		else SetPosition(target->GetPosition());
+		if (followTarget)
+		{
+			SetPosition(target->GetPosition() - transform.forward * offset);
+		}
+		else
+		{
+			SetPosition(target->GetPosition());
+		}
 	}
 
 	UpdateView();
