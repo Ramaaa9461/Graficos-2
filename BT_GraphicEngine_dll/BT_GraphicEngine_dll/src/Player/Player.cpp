@@ -52,14 +52,7 @@ void Player::Inputs()
 		SetPosition(GetPosition() - GetSpeedDelta() * camera->GetForward());
 	}
 
-	if (Input::IsKeyPressed(KEY_Q))
-	{
-		camera->SetFollowStatus(true);
-	}
-	else if (Input::IsKeyPressed(KEY_E))
-	{
-		camera->SetFollowStatus(false);
-	}
+
 	if (Input::IsKeyPressed(KEY_LEFT_SHIFT))
 	{
 		moveSpeed = moveBaseSpeed * 2.5f;
