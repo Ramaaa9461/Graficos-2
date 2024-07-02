@@ -30,7 +30,6 @@ protected:
 
 	virtual void SetUniforms() override;
 	virtual void UpdateShader() override;
-	void GenerateVolumeAABB();
 
 public:
 	Entity2D();
@@ -50,9 +49,6 @@ public:
 
 	Color color;
 	Material* material;
-
-	glm::vec3 minAABB;
-	glm::vec3 maxAABB;
 };
 
 #endif

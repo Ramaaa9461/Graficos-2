@@ -71,10 +71,6 @@ void Shape::Init(SHAPE_TYPE shapeType)
 
 	renderer->SetBaseAttribs(locationPosition, 3, sizeof(Vertex), (void*)0);
 	renderer->SetBaseAttribs(locationNormal, 3, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-
-	localVolume = new VolumeAABB();
-	localVolume->Init(renderer);
-	GenerateVolumeAABB();
 }
 
 void Shape::Draw()
@@ -89,8 +85,6 @@ void Shape::Draw()
 
 		renderer->BlendDisable();
 		renderer->CleanShader();
-
-		Entity::DrawVolume();
 	}
 	else
 	{

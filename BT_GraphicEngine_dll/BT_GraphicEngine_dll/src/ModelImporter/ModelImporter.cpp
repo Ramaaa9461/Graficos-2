@@ -1,9 +1,13 @@
 #include "ModelImporter.h"
 
+#pragma StaticInit
+
 Renderer* ModelImporter::renderer = nullptr;
 vector<Texture> ModelImporter::textures_loaded = vector<Texture>();
 string ModelImporter::directory = string();
 string assimpfbx = "$AssimpFbx$";
+
+#pragma endregion
 
 ModelImporter::ModelImporter()
 {
@@ -54,8 +58,6 @@ void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* s
         // Si hay meshes, las procesa todas
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
-            // El objeto del nodo solo contiene indeces para indexar las objetos reales en la escena
-            // La escena contiene todos los datos, el nodo es solo para manterner las cosas organizadas (como las relaciones entre los nodos)
             aiMesh* aiMesh = scene->mMeshes[node->mMeshes[i]];
             meshes.push_back(ProcessMesh(aiMesh, scene));
         }

@@ -56,7 +56,6 @@ void Entity3D::Draw()
 		renderer->BlendDisable();
 		renderer->CleanShader();
 
-		Entity::DrawVolume();
 	}
 	else
 	{

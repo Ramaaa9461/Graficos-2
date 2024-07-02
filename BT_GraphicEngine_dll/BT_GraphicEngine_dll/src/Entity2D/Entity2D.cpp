@@ -23,8 +23,6 @@ Entity2D::Entity2D() : Entity()
 	affectedLight = true;
 	useTexture = false;
 
-	minAABB = glm::vec3(numeric_limits<float>::max());
-	maxAABB = -glm::vec3(std::numeric_limits<float>::max());
 }
 
 Entity2D::Entity2D(Renderer* renderer) : Entity(renderer)
@@ -49,9 +47,6 @@ Entity2D::Entity2D(Renderer* renderer) : Entity(renderer)
 
 	affectedLight = true;
 	useTexture = false;
-
-	minAABB = glm::vec3(numeric_limits<float>::max());
-	maxAABB = -glm::vec3(std::numeric_limits<float>::max());
 }
 
 Entity2D::~Entity2D()
@@ -119,31 +114,5 @@ void Entity2D::UpdateShader()
 	if (material != nullptr)
 	{
 		material->UpdateShader();
-	}
-}
-
-void Entity2D::GenerateVolumeAABB()
-{
-	for (int i = 0; i < vertexs.size(); i++)
-	{
-		Vertex vertex = vertexs[i];
-		minAABB.x = glm::min(minAABB.x, vertex.Position.x);
-		minAABB.y = glm::min(minAABB.y, vertex.Position.y);
-		minAABB.z = glm::min(minAABB.z, vertex.Position.z);
-		maxAABB.x = glm::max(maxAABB.x, vertex.Position.x);
-		maxAABB.y = glm::max(maxAABB.y, vertex.Position.y);
-		maxAABB.z = glm::max(maxAABB.z, vertex.Position.z);
-	}
-
-	localVolume = new VolumeAABB(minAABB, maxAABB);
-	globalVolume = new VolumeAABB();
-	globalVolume->SetGlobalVolume(localVolume, matrix.model);
-	globalVolume->Init(renderer);
-
-	if (parent != nullptr)
-	{
-		Entity2D* parent2d = static_cast<Entity2D*>(parent);
-		parent2d->minAABB = glm::min(minAABB, parent2d->minAABB);
-		parent2d->maxAABB = glm::max(minAABB, parent2d->minAABB);
 	}
 }

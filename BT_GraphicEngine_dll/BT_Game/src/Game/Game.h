@@ -12,7 +12,6 @@
 #include "Entity3D/Entity3D.h"
 #include "ModelImporter/ModelImporter.h"
 #include "Sprite/Sprite.h"
-#include "PlaneBSP/PlaneBSP.h"
 #include <iostream>
 
 class DllApi Game : public BaseGame

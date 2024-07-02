@@ -106,7 +106,6 @@ void Sprite::Draw()
 		renderer->TextureDisable();
 		renderer->BlendDisable();
 		renderer->CleanShader();
-		Entity::DrawVolume();
 	}
 
 	Entity::Draw();

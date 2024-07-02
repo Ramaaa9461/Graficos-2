@@ -8,15 +8,9 @@ Entity::Entity()
 
 	name = "";
 	enabled = true;
-	visible = true;
-	isOnFrustum = true;
 
 	parent = nullptr;
 	nodes = list<Entity*>();
-
-	localVolume = nullptr;
-	globalVolume = nullptr;
-	volumeDirty = false;
 
 	transform.position = glm::vec3(0.f);
 	transform.eulerAngles = glm::vec3(0.f);
@@ -55,15 +49,9 @@ Entity::Entity(Renderer* renderer)
 
 	name = "";
 	enabled = true;
-	visible = true;
-	isOnFrustum = true;
 
 	parent = nullptr;
 	nodes = list<Entity*>();
-
-	localVolume = nullptr;
-	globalVolume = nullptr;
-	volumeDirty = false;
 
 	transform.position = glm::vec3(0.f);
 	transform.eulerAngles = glm::vec3(0.f);
@@ -105,14 +93,6 @@ void Entity::Update()
 {
 	if (!enabled) return;
 
-	if (volumeDirty)
-	{
-		UpdateGlobalVolume();
-		volumeDirty = false;
-	}
-
-	isOnFrustum = globalVolume != nullptr ? globalVolume->IsOnFrustum() : true;
-
 	for (list<Entity*>::iterator it = nodes.begin(); it != nodes.end(); ++it)
 	{
 		(*it)->Update();
@@ -129,9 +109,6 @@ void Entity::Draw()
 
 void Entity::DeInit()
 {
-	localVolume->DeInit();
-	globalVolume->DeInit();
-
 	for (list<Entity*>::iterator it = nodes.begin(); it != nodes.end(); ++it)
 	{
 		(*it)->DeInit();
@@ -364,11 +341,6 @@ Entity* Entity::GetNode(int nodeIndex)
 	return nullptr;
 }
 
-Volume* Entity::GetGlobalVolume()
-{
-	return globalVolume;
-}
-
 glm::vec3 Entity::GetForward()
 {
 	return transform.forward;
@@ -496,28 +468,7 @@ float Entity::GetScaleZ()
 
 bool Entity::IsCanDraw()
 {
-	return enabled && isOnFrustum && visible;
-}
-
-void Entity::UpdateGlobalVolume()
-{
-	if (globalVolume != nullptr)
-	{
-		globalVolume->SetGlobalVolume(localVolume, matrix.model);
-	}
-}
-
-void Entity::ToggleDrawVolume()
-{
-	drawVolume = !drawVolume;
-}
-
-void Entity::DrawVolume()
-{
-	if (globalVolume != nullptr)// && drawVolume)
-	{
-		globalVolume->Draw(matrix.model);
-	}
+	return enabled ;
 }
 
 void Entity::SetUniforms()
@@ -682,7 +633,6 @@ void Entity::Reset()
 void Entity::UpdateMatrix()
 {
 	matrix.model = matrix.translate * matrix.rotation * matrix.scale;
-	volumeDirty = true;
 }
 
 void Entity::UpdateTransform()

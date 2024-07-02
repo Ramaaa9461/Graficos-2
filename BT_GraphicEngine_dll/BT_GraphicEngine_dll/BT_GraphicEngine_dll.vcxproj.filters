@@ -43,9 +43,6 @@
     <Filter Include="src\TextureImporter">
       <UniqueIdentifier>{4b29f0eb-895f-4702-86ae-366a80be3d6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Tile">
-      <UniqueIdentifier>{2e35e8b4-13d9-4543-ab07-dbec63cc50dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Timer">
       <UniqueIdentifier>{874a2c50-8395-49d5-a758-657c8e6a9709}</UniqueIdentifier>
     </Filter>
@@ -54,12 +51,6 @@
     </Filter>
     <Filter Include="src\Window">
       <UniqueIdentifier>{ca9f1356-6ef2-4257-a3be-f498bd7bd6b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\TileMap">
-      <UniqueIdentifier>{5569f289-8201-43c2-8be4-85c0cf4e5275}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\CollisionManager">
-      <UniqueIdentifier>{e84de6d7-2f48-4c8d-99dd-e2a4dfaa02e4}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Light">
       <UniqueIdentifier>{b5dc856a-77d9-429e-a3c5-488becb4eab1}</UniqueIdentifier>
@@ -79,26 +70,11 @@
     <Filter Include="src\ModelImporter">
       <UniqueIdentifier>{e20d2377-f5cf-49f4-939d-894dc09101c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\OcclusionCulling">
-      <UniqueIdentifier>{88d6b465-ba20-4ff4-9595-3ccaea6c287f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Plane">
-      <UniqueIdentifier>{fe05d300-7b06-42db-b5fc-b677249fe54c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Volume">
-      <UniqueIdentifier>{e019603b-f834-4d4b-9c85-0c77f8441b99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Mesh">
       <UniqueIdentifier>{396eaa4f-7fd7-4f1d-935c-1a6191910259}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Line">
       <UniqueIdentifier>{4992ea18-8f7f-4266-8f80-83ece7fd766a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\PlaneBSP">
-      <UniqueIdentifier>{d8d570cb-f023-4450-a207-9778375f5e7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\BSP">
-      <UniqueIdentifier>{fb11dac8-b456-4788-a9e3-c94d62fee30a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,12 +123,6 @@
     <ClInclude Include="src\TextureImporter\TextureImporter.h">
       <Filter>src\TextureImporter</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tile\Tile.h">
-      <Filter>src\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tilemap\TileMap.h">
-      <Filter>src\TileMap</Filter>
-    </ClInclude>
     <ClInclude Include="src\Timer\Timer.h">
       <Filter>src\Timer</Filter>
     </ClInclude>
@@ -161,9 +131,6 @@
     </ClInclude>
     <ClInclude Include="src\Window\Window.h">
       <Filter>src\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CollisionManager\CollisionManager.h">
-      <Filter>src\CollisionManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Light\Light.h">
       <Filter>src\Light</Filter>
@@ -201,18 +168,6 @@
     <ClInclude Include="src\ModelImporter\ModelImporter.h">
       <Filter>src\ModelImporter</Filter>
     </ClInclude>
-    <ClInclude Include="src\Plane\Plane.h">
-      <Filter>src\Plane</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OcclusionCulling\OcclusionCulling.h">
-      <Filter>src\OcclusionCulling</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Volume\Volume.h">
-      <Filter>src\Volume</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Volume\VolumeAABB.h">
-      <Filter>src\Volume</Filter>
-    </ClInclude>
     <ClInclude Include="src\Matrix.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -227,12 +182,6 @@
     </ClInclude>
     <ClInclude Include="src\Line\Line.h">
       <Filter>src\Line</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PlaneBSP\PlaneBSP.h">
-      <Filter>src\PlaneBSP</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BSP\BSP.h">
-      <Filter>src\BSP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,12 +221,6 @@
     <ClCompile Include="src\TextureImporter\TextureImporter.cpp">
       <Filter>src\TextureImporter</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tile\Tile.cpp">
-      <Filter>src\Tile</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tilemap\TileMap.cpp">
-      <Filter>src\TileMap</Filter>
-    </ClCompile>
     <ClCompile Include="src\Timer\Timer.cpp">
       <Filter>src\Timer</Filter>
     </ClCompile>
@@ -286,9 +229,6 @@
     </ClCompile>
     <ClCompile Include="src\Window\Window.cpp">
       <Filter>src\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CollisionManager\CollisionManager.cpp">
-      <Filter>src\CollisionManager</Filter>
     </ClCompile>
     <ClCompile Include="src\Light\Light.cpp">
       <Filter>src\Light</Filter>
@@ -323,18 +263,6 @@
     <ClCompile Include="src\ModelImporter\ModelImporter.cpp">
       <Filter>src\ModelImporter</Filter>
     </ClCompile>
-    <ClCompile Include="src\Plane\Plane.cpp">
-      <Filter>src\Plane</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OcclusionCulling\OcclusionCulling.cpp">
-      <Filter>src\OcclusionCulling</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Volume\Volume.cpp">
-      <Filter>src\Volume</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Volume\VolumeAABB.cpp">
-      <Filter>src\Volume</Filter>
-    </ClCompile>
     <ClCompile Include="src\Mesh\Mesh.cpp">
       <Filter>src\Mesh</Filter>
     </ClCompile>
@@ -343,12 +271,6 @@
     </ClCompile>
     <ClCompile Include="src\Line\Line.cpp">
       <Filter>src\Line</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlaneBSP\PlaneBSP.cpp">
-      <Filter>src\PlaneBSP</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BSP\BSP.cpp">
-      <Filter>src\BSP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

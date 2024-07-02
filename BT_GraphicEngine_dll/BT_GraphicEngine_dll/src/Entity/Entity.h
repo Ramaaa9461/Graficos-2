@@ -8,8 +8,6 @@
 #include <vector>
 #include <math.h>
 #include "Renderer/Renderer.h"
-#include "Volume/Volume.h"
-#include "Volume/VolumeAABB.h"
 #include "glm/glm.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include <glm/gtc/type_ptr.hpp>
@@ -27,11 +25,6 @@ protected:
 	Entity* parent;
 	list<Entity*> nodes;
 
-	VolumeAABB* localVolume;
-	VolumeAABB* globalVolume;
-	bool volumeDirty;
-	bool drawVolume;
-
 	unsigned int uniformModel;
 	unsigned int uniformView;
 	unsigned int uniformProjection;
@@ -40,7 +33,6 @@ protected:
 	unsigned int locationTexCoord;
 
 	bool IsCanDraw();
-	void UpdateGlobalVolume();
 
 	virtual void SetUniforms();
 	virtual void UpdateShader();
@@ -101,10 +93,6 @@ public:
 	Entity* GetNode(string nodeName);
 	Entity* GetNode(int nodeIndex);
 
-	Volume* GetGlobalVolume();
-	void ToggleDrawVolume();
-	void DrawVolume();
-
 	glm::vec3 GetForward();
 	glm::vec3 GetUp();
 	glm::vec3 GetRight();
@@ -142,8 +130,6 @@ public:
 
 	string name;
 	bool enabled;
-	bool visible;
-	bool isOnFrustum;
 };
 
 #endif
