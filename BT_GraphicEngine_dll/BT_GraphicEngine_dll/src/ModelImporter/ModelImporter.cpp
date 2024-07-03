@@ -149,14 +149,6 @@ Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     // Proceso de materiales
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-    // Cada textura se nombra como 'texture_diffuseN' donde la N es un numero sequencial que va de 1 a MAX_SAMPLER_NUMBER
-    // diffuse: texture_diffuseN
-    // specular: texture_specularN
-    // normal: texture_normalN
-
-    //vector<Texture> baseColorMaps = LoadMaterialTextures(material, aiTextureType_BASE_COLOR, "base_color");
-    //textures.insert(textures.end(), baseColorMaps.begin(), baseColorMaps.end());
-
     // 1. Diffuse maps
     vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -169,13 +161,6 @@ Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     // 4. Height maps
     vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-
-    //vector<Texture> metalnessMaps = LoadMaterialTextures(material, aiTextureType_METALNESS, "metalness");
-    //textures.insert(textures.end(), metalnessMaps.begin(), metalnessMaps.end());
-    //vector<Texture> diffuseRoughnessMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "diffuse_roughness");
-    //textures.insert(textures.end(), diffuseRoughnessMaps.begin(), diffuseRoughnessMaps.end());
-    //vector<Texture> ambientOcclusionMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT_OCCLUSION, "ambient_occlusion");
-    //textures.insert(textures.end(), ambientOcclusionMaps.begin(), ambientOcclusionMaps.end());
 
     aiColor4D color(0.f, 0.f, 0.f, 0.f);
     aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &color);
