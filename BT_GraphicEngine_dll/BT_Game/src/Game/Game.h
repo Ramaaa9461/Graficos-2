@@ -27,8 +27,10 @@ private:
 
 	//----------LIGHTS----------
 	DirectionalLight* directionalLight;
-	PointLight* pointLight;
-	SpotLight* spotLight;
+	PointLight* pointLight1;
+	PointLight* pointLight2;
+	SpotLight* spotLight1;
+	SpotLight* spotLight2;
 
 	void Inputs();
 

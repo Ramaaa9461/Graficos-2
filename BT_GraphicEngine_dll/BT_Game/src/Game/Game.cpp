@@ -7,8 +7,10 @@ Game::Game()
 	model1 = nullptr;
 	model2 = nullptr;
 	directionalLight = nullptr;
-	pointLight = nullptr;
-	spotLight = nullptr;
+	pointLight1 = nullptr;
+	pointLight2 = nullptr;
+	spotLight1 = nullptr;
+	spotLight2 = nullptr;
 }
 
 Game::~Game()
@@ -37,16 +39,16 @@ Game::~Game()
 		delete directionalLight;
 	}
 
-	if (pointLight != nullptr)
+	if (pointLight1 != nullptr)
 	{
-		pointLight = nullptr;
-		delete pointLight;
+		pointLight1 = nullptr;
+		delete pointLight1;
 	}
 
-	if (spotLight != nullptr)
+	if (spotLight1 != nullptr)
 	{
-		spotLight = nullptr;
-		delete spotLight;
+		spotLight1 = nullptr;
+		delete spotLight1;
 	}
 }
 
@@ -75,7 +77,7 @@ void Game::Begin()
 	model1->SetPosition(glm::vec3(0.0f, 2.0f, 0.0f));
 
 	model2 = new Entity3D(renderer);
-	model2 = ModelImporter::LoadModel(renderer, "res/Models/guitarBackpack/backpack.obj");
+	model2 = ModelImporter::LoadModel(renderer, "res/Models/Dummy/Dummy.fbx");
 	model2->SetPosition(glm::vec3(0.0f, 2.0f, 10.0f));
 	model2->SetRotation(glm::vec3(0.0f, 180.0f, 0.0f));
 
@@ -93,36 +95,49 @@ void Game::Begin()
 
 #pragma region PointLightValues
 
-	pointLight = new PointLight(renderer);
+	pointLight1 = new PointLight(renderer);
 
-	pointLight->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
-	pointLight->SetAmbient(glm::vec3(0.2f));
-	pointLight->SetDiffuse(glm::vec3(0.5f));
-	pointLight->SetSpecular(glm::vec3(1.0f));
+	pointLight1->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
+	pointLight1->SetAmbient(glm::vec3(0.2f));
+	pointLight1->SetDiffuse(glm::vec3(0.5f));
+	pointLight1->SetSpecular(glm::vec3(1.0f));
 
-	pointLight->SetConstant(1.0f);
-	pointLight->SetLinear(0.09f);
-	pointLight->SetQuadratic(0.032f);
+	pointLight1->SetConstant(1.0f);
+	pointLight1->SetLinear(0.09f);
+	pointLight1->SetQuadratic(0.032f);
+
+	pointLight2 = new PointLight(renderer);
+
+	pointLight2->color =  Color(255,0,0,1);
+	
+	pointLight2->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
+	pointLight2->SetAmbient(glm::vec3(0.2f));
+	pointLight2->SetDiffuse(glm::vec3(0.5f));
+	pointLight2->SetSpecular(glm::vec3(1.0f));
+			  
+	pointLight2->SetConstant(1.0f);
+	pointLight2->SetLinear(0.09f);
+	pointLight2->SetQuadratic(0.032f);
 
 #pragma endregion
 
 #pragma region SpotLightValues
 
-	spotLight = new SpotLight(renderer);
+	spotLight1 = new SpotLight(renderer);
 
-	spotLight->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
-	spotLight->SetDirection(glm::vec3(0.0f, 0.0f, -1.0f));
+	spotLight1->SetPosition(glm::vec3(0.0f, 2.0f, 2.0f));
+	spotLight1->SetDirection(glm::vec3(0.0f, 0.0f, -1.0f));
 
-	spotLight->SetCutOff(12.5f);
-	spotLight->SetOuterCutOff(17.5f);
+	spotLight1->SetCutOff(12.5f);
+	spotLight1->SetOuterCutOff(17.5f);
 
-	spotLight->SetAmbient(glm::vec3(0.2f));
-	spotLight->SetDiffuse(glm::vec3(0.5f));
-	spotLight->SetSpecular(glm::vec3(1.0f));
+	spotLight1->SetAmbient(glm::vec3(0.2f));
+	spotLight1->SetDiffuse(glm::vec3(0.5f));
+	spotLight1->SetSpecular(glm::vec3(1.0f));
 
-	spotLight->SetConstant(1.0f);
-	spotLight->SetLinear(0.09f);
-	spotLight->SetQuadratic(0.032f);
+	spotLight1->SetConstant(1.0f);
+	spotLight1->SetLinear(0.09f);
+	spotLight1->SetQuadratic(0.032f);
 
 #pragma endregion
 }
@@ -133,8 +148,8 @@ void Game::Update()
 	camera->Update();
 
 	directionalLight->UseLight();
-	pointLight->UseLight();
-	spotLight->UseLight();
+	pointLight1->UseLight();
+	spotLight1->UseLight();
 
 	model1->Update();
 	model2->Update();
@@ -167,11 +182,11 @@ void Game::Inputs()
 	}
 	if (Input::IsKeyDown(KEY_2))
 	{
-		pointLight->SetEnabled(!pointLight->IsEnabled());
+		pointLight1->SetEnabled(!pointLight1->IsEnabled());
 	}
 	if (Input::IsKeyDown(KEY_3))
 	{
-		spotLight->SetEnabled(!spotLight->IsEnabled());
+		spotLight1->SetEnabled(!spotLight1->IsEnabled());
 	}
 
 	//----------------------------TRANSFORMS---------------------------------
