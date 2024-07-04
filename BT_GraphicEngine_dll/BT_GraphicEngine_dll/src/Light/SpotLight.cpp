@@ -1,7 +1,12 @@
 #include "SpotLight.h"
 
+int SpotLight::s_spotLightCount = 0; // Inicializamos el contador de luces puntuales en 0
+
+
 SpotLight::SpotLight(Renderer* render) : PointLight(render)
 {
+	m_index = s_spotLightCount++;
+
 	direction = glm::vec3(0);
 	cutOff = 0;
 	outerCutOff = 0;
@@ -26,12 +31,14 @@ void SpotLight::UpdateShader()
 	renderer->UpdateLightVec3(uniformDirection, direction);
 	renderer->UpdateLightFloat(uniformCutOff, cutOff);
 	renderer->UpdateLightFloat(uniformOuterCutOff, outerCutOff); 
-	SetUniforms(renderer->GetShaderId());
+	SetUniforms(m_index);
 }
 
 void SpotLight::SetUniforms(int index)
 {
 	string indexSTR = to_string(index).c_str();
+	cout << "Spot nro: " << indexSTR << " - " << index << " - " << m_index << " - " << s_spotLightCount << "\n";
+
 	renderer->SetUniform(uniformColor, ("spotLight[" + indexSTR + "].pointLight.color").c_str());
 	renderer->SetUniform(uniformDirection, ("spotLight[" + indexSTR + "].direction").c_str());
 	renderer->SetUniform(uniformPosition, ("spotLight[" + indexSTR + "].pointLight.position").c_str());

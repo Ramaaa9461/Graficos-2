@@ -17,7 +17,7 @@ ModelImporter::~ModelImporter()
 {
 }
 
-Entity3D* ModelImporter::LoadModel(Renderer* render, string path)
+Entity3D* ModelImporter::LoadModel(Renderer* render, string path, bool invertUvs)
 {
     renderer = render;
 
@@ -41,12 +41,12 @@ Entity3D* ModelImporter::LoadModel(Renderer* render, string path)
     model->name = scene->mRootNode->mName.C_Str();
 
     // Se procesa el ASSIMP's root node recursivamente
-    ProcessNode(model, scene->mRootNode, scene);
+    ProcessNode(model, scene->mRootNode, scene, invertUvs);
 
     return model;
 }
 
-void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* scene)
+void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* scene, bool invertUvs)
 {
     Entity3D* entityNode = nullptr;
     string name = node->mName.C_Str();
@@ -59,7 +59,7 @@ void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* s
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* aiMesh = scene->mMeshes[node->mMeshes[i]];
-            meshes.push_back(ProcessMesh(aiMesh, scene));
+            meshes.push_back(ProcessMesh(aiMesh, scene, invertUvs));
         }
 
         entityNode = new Entity3D(meshes, renderer);
@@ -72,7 +72,7 @@ void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* s
     // Hace lo mismo para cada uno de los hijos
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        ProcessNode(entityNode, node->mChildren[i], scene);
+        ProcessNode(entityNode, node->mChildren[i], scene, invertUvs);
     }
 
     parent->AddNode(entityNode);
@@ -88,7 +88,7 @@ void ModelImporter::ProcessNode(Entity3D* parent, aiNode* node, const aiScene* s
     entityNode->SetMatrix(mat);
 }
 
-Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene, bool invertUvs)
 {
     vector<Vertex> vertices;
     vector<unsigned int> indices;
@@ -149,18 +149,25 @@ Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     // Proceso de materiales
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
+
+    vector<Texture> baseColorMaps = LoadMaterialTextures(material, (aiTextureType)12, "texture_base_color", invertUvs);
+    textures.insert(textures.end(), baseColorMaps.begin(), baseColorMaps.end());
+
     // 1. Diffuse maps
-    vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
+    vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", invertUvs);
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
     // 2. Specular maps
-    vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
+    vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", invertUvs);
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     // 3. Normal maps
-    vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
+    vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", invertUvs);
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
     // 4. Height maps
-    vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "height");
+    vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", invertUvs);
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+    //vector<Texture> baseColorMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_baseColor");
+    //textures.insert(textures.end(), baseColorMaps.begin(), baseColorMaps.end());
 
     aiColor4D color(0.f, 0.f, 0.f, 0.f);
     aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &color);
@@ -183,7 +190,7 @@ Mesh* ModelImporter::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     return m;
 }
 
-vector<Texture> ModelImporter::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
+vector<Texture> ModelImporter::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName, bool invertUvs)
 {
     vector<Texture> textures;
     unsigned int texturesCount = mat->GetTextureCount(type);
@@ -209,7 +216,7 @@ vector<Texture> ModelImporter::LoadMaterialTextures(aiMaterial* mat, aiTextureTy
         if (!skip)
         {
             string path = directory + '/' + str.C_Str();
-            Texture texture = TextureImporter::LoadTexture(path.c_str(), true);
+            Texture texture = TextureImporter::LoadTexture(path.c_str(), invertUvs);
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);

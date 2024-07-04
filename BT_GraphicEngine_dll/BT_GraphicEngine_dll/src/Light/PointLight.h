@@ -11,6 +11,10 @@ using namespace std;
 class DllApi PointLight : public Light
 {
 protected:
+
+	static int s_pointLightCount;
+	int m_index; 
+
 	float constant;
 	float linear;
 	float quadratic;

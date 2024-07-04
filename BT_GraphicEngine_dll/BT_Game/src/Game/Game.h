@@ -24,6 +24,8 @@ private:
 	Sprite* floor;
 	Entity3D* model1;
 	Entity3D* model2;
+	Entity3D* model3;
+	Entity3D* model4;
 
 	//----------LIGHTS----------
 	DirectionalLight* directionalLight;

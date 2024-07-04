@@ -59,7 +59,7 @@ struct TextureMaterial
 	float shininess;
 };
 
-#define LIGHTS_MAX 3
+#define LIGHTS_MAX 5
 uniform DirectionalLight directionalLight;
 uniform PointLight pointLight[LIGHTS_MAX];
 uniform SpotLight spotLight[LIGHTS_MAX];

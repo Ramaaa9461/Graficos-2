@@ -55,7 +55,7 @@ Texture TextureImporter::LoadTexture(const char* path, bool invertImage)
 	}
 	else
 	{
-		cout << "Failed to load texture" << endl;
+		cout << "Failed to load texture at " << path << endl;
 	}
 
 	Texture tex = { textureId, (float)textureWidth, (float)textureHeight, "", "" };

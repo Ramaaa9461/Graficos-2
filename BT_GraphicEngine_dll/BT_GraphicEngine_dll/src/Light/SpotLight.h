@@ -10,6 +10,10 @@ using namespace std;
 class DllApi SpotLight : public PointLight
 {
 private:
+
+	static int s_spotLightCount;
+	int m_index;
+
 	glm::vec3 direction;
 	float cutOff;
 	float outerCutOff;

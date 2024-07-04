@@ -21,15 +21,15 @@ private:
 	static string directory;
 	static vector<Texture> textures_loaded;
 
-	static void ProcessNode(Entity3D* parent, aiNode* node, const aiScene* scene);
-	static Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	static vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	static void ProcessNode(Entity3D* parent, aiNode* node, const aiScene* scene, bool invertUvs);
+	static Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene, bool invertUvs);
+	static vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName, bool invertUvs);
 
 public:
 	ModelImporter();
 	~ModelImporter();
 
-	static Entity3D* LoadModel(Renderer* render, string path);
+	static Entity3D* LoadModel(Renderer* render, string path, bool invertUvs);
 };
 
 #endif

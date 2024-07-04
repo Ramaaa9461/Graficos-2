@@ -1,7 +1,12 @@
 #include "PointLight.h"
 
+int PointLight::s_pointLightCount = 0; // Inicializamos el contador de luces puntuales en 0
+
+
 PointLight::PointLight(Renderer* render) : Light(render)
 {
+	m_index = s_pointLightCount++;
+
 	constant = 0;
 	linear = 0;
 	quadratic = 0;
@@ -28,7 +33,7 @@ void PointLight::UpdateShader()
 	renderer->UpdateLightFloat(uniformConstant, constant);
 	renderer->UpdateLightFloat(uniformLinear, linear);
 	renderer->UpdateLightFloat(uniformQuadratic, quadratic);
-	SetUniforms(renderer->GetShaderId());
+	SetUniforms(m_index);
 }
 
 void PointLight::SetUniforms(int index)
